@@ -1,0 +1,159 @@
+﻿import { string, bool } from "prop-types";
+import { stringify } from "querystring";
+import { Component } from "react";
+
+initialState = {
+    pages: [
+        {
+            id: int,
+            url: string,
+            name: string,
+            pageBigPicture: string,
+            pageSmallPicture: string,
+            headerName: string,
+            headerText: string,
+            headerFeatures: [featureIds,...],
+            lefts: [
+                {componentType: string,
+                componentId: int,
+                },
+                ... 
+            ],
+            rights: [
+                {componentType: string,
+                    componentId: int,
+                },
+                ...
+            ]
+
+            
+        }
+    ],
+    headerFeatures:{
+        featureId: {
+            featureName: string,
+            featurePrice: int,
+            featureMeasureNum: string,
+            featureMeasureDenom: string
+
+        }
+        ...
+    },
+    blockOfLinks: {
+        id: {
+            header: string,
+            position: int,
+            links: [
+                id: int,
+                ...
+            ]    
+        }
+        ...
+    },
+    links: {
+        id: {
+        page: int,
+        header: string,
+        text: string,
+        price: int,
+        featureMeasureNum: string,
+        featureMeasureDenom: string
+        },
+        ...
+    },
+    blockOfPlainText: {
+        id: {
+            header: string,
+            paragraphs: [
+                id: int,
+                ...
+            ]    
+        }
+        ...
+
+    },
+    paragraph: {
+        id: {
+        text: string
+        },
+        ...
+    },
+    blockOfIcons: {
+        id: {
+            header: string,
+            position: int,
+            icons: [
+                id: int,
+                ...
+            ]    
+        },
+        ...
+    },
+    icons: {
+        id: {
+            iconTitle: string,
+            iconName: string,
+            iconText: string
+        },
+        ...
+    },
+    blockOfAvatars: {
+        id: {
+            header: string,
+            position: int,
+            avatars: [
+                id: int,
+                ...
+            ]    
+        },
+        ...
+    },
+    avatars: {
+        id: {
+            header: string,
+            name: string,
+            speech: string,
+            photo: string,
+            circle: bool,
+            dimX: int,
+            dimY: int
+        },
+        ...
+    },
+    offer: {
+        id: {
+         value: int,
+        featureMeasureNum: string,
+        featureMeasureDenom: string,
+        name: string,
+        description: string   
+        },
+        ...
+    },
+    table: {
+        id: {
+            header: string,
+            subheader: string,
+            numOfRows: int,
+            numOfCols: int,
+            colHeaders: string, //Comma separated
+            rowHeaders: string, //Comma separated
+            rows: [
+                id: int,
+            ]
+        },
+        ...
+    },
+    tableRows: {
+        id:{
+            row: string //Comma separated
+        },
+        ...
+    }
+
+
+    }
+
+
+
+}
