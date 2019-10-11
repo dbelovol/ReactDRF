@@ -62,9 +62,9 @@ function useScrollTransform (trigger) {
     const triggerProps = trigger ? {
         appProps: {
             elevation: 4,
-            color: "primary",
+            color: "secondary",
             classes: {
-                colorPrimary: textStyles.colorStyle_1 // Стиль, применяемый при значении prop color=primary
+                colorSecondary: textStyles.colorStyle_1 // Стиль, применяемый при значении prop color=primary
                 },
             },
         typProps: {
@@ -76,9 +76,9 @@ function useScrollTransform (trigger) {
     } : {
         appProps: {
             elevation: 0,
-            color: "secondary",
+            color: "primary",
             classes: {
-                colorSecondary: textStyles.colorStyle  // Стиль, применяемый при значении prop color=secondary
+                colorPrimary: textStyles.colorStyle  // Стиль, применяемый при значении prop color=secondary
                 },
             },
         typProps: {

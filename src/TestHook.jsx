@@ -110,11 +110,21 @@ const useTransparent_1 = makeStyles (theme => ({
         right: 0,
         bottom: 0,                                        
     },
-    filterBott:{    // фильтр практически такой же, так что меняется только прозрачнось. Надо было поконтрастнее
+    filterBott:{    // фильтр практически такой же, так что меняется только прозрачность. Надо было поконтрастнее
         "&:before": {
-            opacity: "0.9",
+            opacity: "0.7",
             background: theme.palette.primary.light 
-        }
+        },
+        "&:after,&:before": {
+            position: "absolute",
+            zIndex: "1",
+            width: "100%",
+            height: "100%",
+            display: "block",
+            left: "0",
+            top: "0",
+            content: "''"
+          }
     },
 //----------------------------------------------------------------------------------//    
     
@@ -201,9 +211,9 @@ const useTransparent_1 = makeStyles (theme => ({
     },
     parallax__layer__back: {
         // Медленный слой
-        // На главное странице картинка двигается медленно
+        // На главной странице картинка двигается медленно
         // На остальных - неподвижна
-        transform: props => props.page == 0 ? "translateZ(-1px) scale(2.1)" : "translateZ(-100px) scale(115)",
+        transform: props => props.page == 0 ? "translateZ(-1px) scale(2.1)" : "translateZ(-100px) scale(112)",
         position: "relative", 
         zIndex: 1,
        
@@ -215,7 +225,7 @@ const useTransparent_1 = makeStyles (theme => ({
     },
 //----------------------------------------------------------------------------------//
     bottomText: {
-        color: theme.palette.grey[600],
+        color: theme.palette.grey[800],
         transition: "all 1s",
     }
 }));
@@ -312,7 +322,7 @@ export default function ElevateAppBar(props) {
                 */}
                 <div className={imageStyles.parallax__layer}>
                     <div 
-                    className={`${imageStyles.imgBott} ${imageStyles.filter} ${imageStyles.filterBott} ${imageStyles.parallax__layer__base} ${imageStyles.parallax__layer__bott} `}
+                    className={`${imageStyles.imgBott} ${imageStyles.filterBott} ${imageStyles.parallax__layer__base} ${imageStyles.parallax__layer__bott} `}
                     style={{  backgroundImage: "url("+FooterImage+")"}}
                     />
                     {/*Ссылки подвала */}
