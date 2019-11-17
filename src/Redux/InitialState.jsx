@@ -56,17 +56,20 @@ import random from 'random';
     ]
         
     const transformedDataArray = dataArray.map(el => address(el))
-    let urlDataArray=["/"]
+    let urlDataArray=[]
     
-    function node (prev_node,tree,level){
+    function node (prev_node,tree,level, url){
         if (tree[prev_node].childs) {
             tree[prev_node].level = level
+            urlDataArray[prev_node]= url
             for (const i of tree[prev_node].childs.values()) {
-                node (i,tree,level+1)
+                node (i,tree,level+1, urlJoin(url, transformedDataArray[i]))
             }
         }
          else {
              tree[prev_node].level = level
+             urlDataArray[prev_node]= url
+
         }
     }
                 
@@ -246,17 +249,17 @@ import random from 'random';
      const ind = start_tree[0].childs.findIndex((el) => el == 0)
      start_tree[0].childs.splice(ind,(ind >= 0 ? 1 :0))
      
-     node (0,start_tree,0)
+     node (0,start_tree,0,"/")
      
-     for (var i = 0; i < 3 ; i++) {
-         for (let [key,value] of Object.entries(start_tree)) {
-             if (value.level == i) {
-                 for (var j in value.childs){
-                     urlDataArray[value.childs[j]]=urlJoin(urlDataArray[key],transformedDataArray[value.childs[j]])
-                 }
-             }
-         }
-     }
+    //  for (var i = 0; i < 3 ; i++) {
+    //      for (let [key,value] of Object.entries(start_tree)) {
+    //          if (value.level == i) {
+    //              for (var j in value.childs){
+    //                  urlDataArray[value.childs[j]]=urlJoin(urlDataArray[key],transformedDataArray[value.childs[j]])
+    //              }
+    //          }
+    //      }
+    //  }
     
     const randomPict  =  random.uniformInt(0,pagePictures.length-1)
     const pages = urlDataArray.map((el,i) => ({id: i, name: dataArray[i], url: el, picture: pagePictures[ randomPict()]}))
