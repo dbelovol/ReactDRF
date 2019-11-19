@@ -47,7 +47,10 @@ import random from 'random';
     "Удаленная бухгалтерия",//36
     "Абонентское бухгалтерское обслуживание",//37
     ];
-    
+    const objDataArray = {}
+    dataArray.forEach( (value, index) => {objDataArray[index]=value})
+
+
     const pagePictures = [
     "/IMG/Depositphotos_33035993_xl-2015.jpg",
     "/IMG/Depositphotos_11632587_xl-2015.jpg",
@@ -75,20 +78,20 @@ import random from 'random';
                 
     
     const start_tree = {
-        0: {
-            parent:0
+        160: {
+            parent: null
         },
         1: {
-            parent:0
+            parent:160
         },
         2: {
-            parent:0
+            parent:160
         },
         3: {
-            parent:0
+            parent:160
         },
         35: {
-            parent:0
+            parent:160
         },
         4: {
             parent:2
@@ -236,6 +239,28 @@ import random from 'random';
          },
      };
     */ 
+   // От api придет в поле родителя корневой страницы null. Его заменяем на 0
+     let root 
+     for (let [key,value] of Object.entries(start_tree)){
+     if (value.parent == null){
+        root = key
+        delete start_tree[key]
+        start_tree[0]={"parent": 0}
+        break
+        }
+    }
+    // Чтобы не переделывать то, что уже наворочено по интерфейсу
+    // Решено принудительно устанавливать идентификатор корневой страницы в 0
+    // риска нет, так как идентификатор есть pk в базе данных, которые не может начинаться от 0
+    // Меняем идентификатор корневой страницы на 0, меняем на 0 идентификатор рлодителя всех 
+    // дочерних страниц
+
+    for (let [key,value] of Object.entries(start_tree)){
+        if (value.parent == root){
+            start_tree[key].parent = 0
+        }
+    }
+
      for (let [key,value] of Object.entries(start_tree)) {
         if (start_tree[value.parent].childs) { 
             start_tree[value.parent].childs.push(key)
@@ -245,7 +270,7 @@ import random from 'random';
             start_tree[value.parent].childs[0]=key
         }
      }
-     
+
      const ind = start_tree[0].childs.findIndex((el) => el == 0)
      start_tree[0].childs.splice(ind,(ind >= 0 ? 1 :0))
      

@@ -21,6 +21,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import rootReducer from './Redux/Reducers.jsx'
 import Dispatcher, {Page404} from './Dispatcher.jsx'
 import {initialState} from './Redux/InitialState.jsx'
+import Normalize from './Normalize.jsx'
 import Test from './test.jsx'
 
 
@@ -48,13 +49,14 @@ const store = configureStore({
 
 
 
+
 ReactDOM.render(
 <ThemeProvider theme={tmk_theme}>
     <Provider store={store}>
          <Router>
             <Switch>
                 <Route path="/404" component={Page404}/>
-                <Route component={Dispatcher}/>
+                <Route component={Normalize}/>
             </Switch>    
         </Router>
     </Provider>
