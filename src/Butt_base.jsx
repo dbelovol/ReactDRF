@@ -44,8 +44,8 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     height: "40vh",
     [theme.breakpoints.down('xs')]: {
-      width: '100% !important', // Overrides inline-style
-      height: 100,
+     // width: '100% !important', // Overrides inline-style
+    //  height: 100,
     },
     '&:hover, &$focusVisible': {
       zIndex: 1,
@@ -142,7 +142,7 @@ export default function ButtonBases(props) {
                     что мы делаем
                 </Typography>
             </Grid>
-            <Grid item xs={12} container spacing={2} justify="center">
+            <Grid item sm={12} container spacing={2} justify="center">
                 {images.map(image => (
                 <Grid item xs={12} md={6} key={image.title}>
                     <ButtonBase

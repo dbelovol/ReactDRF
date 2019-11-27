@@ -38,7 +38,7 @@ const images = {
   },
   {
     icon: 'fa fa-people-carry',
-    title: 'Применяем индивидуальный подход к клиенту',
+    title: 'пше ',
 
   },
   ]
