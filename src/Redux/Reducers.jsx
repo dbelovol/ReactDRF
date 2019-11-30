@@ -14,6 +14,12 @@ function markCurrent(node,tree) {
 const testSlice = createSlice ({
 //    initialState: initialState,
     reducers:{
+        pageHeadersRequset: (state, action) => {
+            state.isFetching = True
+        },
+        pageHeadersResponse: (state, action) => {
+
+        },
         setCurrentPage:(state,action)=> {
             let currentPage = state.pages.find((page)=> page.url === action.payload)
             state.currentPage = currentPage ? currentPage.id : -1

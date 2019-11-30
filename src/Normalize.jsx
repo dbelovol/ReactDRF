@@ -153,23 +153,28 @@ const page_data = {
 }
 
 const paragraph = new schema.Entity('paragraphs')
-const block = new schema.Entity('text_blocks',
+const link = new schema.Entity('links')
+const avatar = new schema.Entity('avatars')
+const icon = new schema.Entity('icons')
+const icon_block = new schema.Entity('icon_blocks',
+{icons: [icon]}
+)
+const avatar_block = new schema.Entity('avatar_blocks',
+{avatars: [avatar]}
+)
+const link_block = new schema.Entity('link_blocks',
+{links: [link]}
+)
+const text_block = new schema.Entity('text_blocks',
 {paragraphs: [paragraph]}
-)
-const page_block = new schema.Object(
-{
-    block: block
-}
-)
-
-const page_array = new schema.Array(
-page_block 
-
 )
 
 const page = new schema.Object(
 {
-    text_blocks: page_array
+    text_blocks: [{block: text_block}],
+    link_blocks:[{block: link_block}],
+    avatar_blocks:[{block: avatar_block}],
+    icon_blocks:[{block: icon_block}],
 }
 )
 
