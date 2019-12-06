@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom'; 
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit'
-import { Provider } from 'react-redux'
+import { Provider, useSelector, useDispatch } from 'react-redux'
 //import Test from "./test";
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
+import {fetchPagesIfNeeded} from './Redux/Reducers.jsx'
 //import Parallax from "./Parallax";
 //import Button from "./Buttons.jsx";
 //import Scroll from "./scrollTrigger.jsx";
@@ -44,20 +45,31 @@ const store = configureStore({
     reducer: rootReducer,
     middleware: getDefaultMiddleware(),
     devTools: true,
-    preloadedState: initialState
+   // preloadedState: initialState
 })
 
-
-
+const ConditionalSwitch = () => {
+    const isLoaded = useSelector( state=> state.isLoaded)
+    const isFetching = useSelector( state=> state.isFetching)
+    useDispatch()(fetchPagesIfNeeded())
+    return (
+        <>
+            {isFetching && <div>Loading pages structure</div> }
+            {isLoaded &&
+            <Switch>
+                <Route path="/404" component={Page404}/>
+                <Route component={Normalize}/>
+            </Switch>   
+            }
+        </>
+    )
+}
 
 ReactDOM.render(
 <ThemeProvider theme={tmk_theme}>
     <Provider store={store}>
          <Router>
-            <Switch>
-                <Route path="/404" component={Page404}/>
-                <Route component={Normalize}/>
-            </Switch>    
+            <ConditionalSwitch/>  
         </Router>
     </Provider>
  </ThemeProvider>

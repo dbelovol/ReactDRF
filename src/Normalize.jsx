@@ -382,9 +382,9 @@ const page_data = {
 }
 
 
-const normalizedData = normalize(page_data, pageSchema);
+// const normalizedData = normalize(page_data, pageSchema);
 
-console.log(normalize(page_data, page), normalize(pages_data, pagesSchema))
+console.log(normalize(page_data, pageSchema), normalize(pages_data, pagesSchema))
 
 // const data = { owner:[ { id: 1, type: 'user', name: 'Anne' }, { id: 1, type: 'group', name: 'Anne' }, { id:3 , type: 'group', name: 'Anne' } ]};
 
