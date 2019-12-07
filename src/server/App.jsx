@@ -6,7 +6,8 @@ import rootReducer from '../Redux/Reducers.jsx'
 import {setCounter} from '../Redux/Reducers.jsx'
 ///
 ///
-
+///
+///
 export default  () => {
     return (
     <Provider store={store}>
