@@ -24,6 +24,7 @@ import Dispatcher, {Page404} from './Dispatcher.jsx'
 import {initialState} from './Redux/InitialState.jsx'
 import Normalize from './Normalize.jsx'
 import Test from './test.jsx'
+import {setCounter} from './Redux/Reducers.jsx'
 
 
 // Данный прием позволяет импортировать все картинки 
@@ -65,12 +66,28 @@ const ConditionalSwitch = () => {
     )
 }
 
+const TestSelector = () => {
+    useDispatch()(setCounter(100))
+    const counter = useSelector(state => state.counter)
+    return <div>Имеем counter = {counter}</div>
+}
+
+// ReactDOM.render(
+// <ThemeProvider theme={tmk_theme}>
+//     <Provider store={store}>
+//          <Router>
+//             <TestSelector/>  
+//         </Router>
+//     </Provider>
+//  </ThemeProvider>
+// , document.getElementById("app"));
+
 ReactDOM.render(
-<ThemeProvider theme={tmk_theme}>
-    <Provider store={store}>
-         <Router>
-            <ConditionalSwitch/>  
-        </Router>
-    </Provider>
- </ThemeProvider>
-, document.getElementById("app"));
+   
+        <Provider store={store}>
+             <Router>
+                <TestSelector/>  
+            </Router>
+        </Provider>
+    
+    , document.getElementById("app"));
