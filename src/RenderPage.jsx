@@ -72,7 +72,7 @@ export default function RenderPage ({page}){
                         to={node==state.currentPage ? "": state.pages[node].url}
                         selected={node==state.currentPage || node == state.tree[state.tree[node].parent].current}    
                     >
-                        <ListItemText primary={state.pages[node].name}/>
+                        <ListItemText primary={state.pages[node].header}/>
                         {node != baseNode ?
                         <ListItemSecondaryAction>
                             <IconButton edge="end" aria-label="delete" onClick={()=> setCollapse({ ...collapsed, [node]: !collapsed[node] })}>
@@ -105,7 +105,7 @@ export default function RenderPage ({page}){
                     to={node==state.currentPage ? "": state.pages[node].url}
                     selected={node==state.currentPage || node == state.tree[state.tree[node].parent].current}   
                 > 
-                    <ListItemText primary={state.pages[node].name} />
+                    <ListItemText primary={state.pages[node].header} />
                 </ListItem>
                 </List>)
         }

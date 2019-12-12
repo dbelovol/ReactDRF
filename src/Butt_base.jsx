@@ -123,11 +123,13 @@ const useStyles = makeStyles(theme => ({
 export default function ButtonBases(props) {
     const {className} = props
     const classes = useStyles();
-    const images = useSelector(state => state.pages.filter(page => state.tree[0].childs.includes(String(page.id))).map(el => ({url:el.picture, title:el.name, width:"100%", to: 
+    const images = useSelector(state => Object.entries(state.pages).
+                              filter(([pageid, pageinfo]) => state.tree[0].childs.includes(String(pageid))).
+                              map(([pageid, pageinfo]) => ({url:pageinfo.picture, title: pageinfo.header, width:"100%", to: 
        
             React.forwardRef((itemProps, ref) => (
         // with react-router-dom@^5.0.0 use `ref` instead of `innerRef`
-                <RouterLink to={el.url} {...itemProps} innerRef={ref} />
+                <RouterLink to={pageinfo.url} {...itemProps} innerRef={ref} />
         ))
 })))
     console.log(images.length, images[0])

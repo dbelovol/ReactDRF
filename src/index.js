@@ -7,6 +7,8 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import {fetchPagesIfNeeded} from './Redux/Reducers.jsx'
+import mediaQuery from 'css-mediaquery';
+
 //import Parallax from "./Parallax";
 //import Button from "./Buttons.jsx";
 //import Scroll from "./scrollTrigger.jsx";
@@ -37,8 +39,13 @@ const tmk_theme = responsiveFontSizes( createMuiTheme({
  palette: {
   primary: { main: '#7a758c' , light: '#f3e5f5'},
   secondary: { main: '#e54a07' }
-}
+},
+// props: {
+//     // Change the default options of useMediaQuery
+//     MuiUseMediaQuery: { ssrMatchMedia: browserMatchMedia },
+//   },
 }), {factor: 5});
+
 
 
 const store = configureStore({
@@ -47,10 +54,21 @@ const store = configureStore({
     devTools: true,
    // preloadedState: initialState
 })
+// const browserMatchMedia = query => ({
+//     matches: mediaQuery.match(query, {
+//       // The estimated CSS width of the browser.
+//       type: "screen",
+//       width: '1024px'
+//     }),
+//   });
+
+// console.log (browserMatchMedia('(min-width:600px)'))
+// console.log (window.matchMedia('(min-width:600px)'))
 
 const ConditionalSwitch = () => {
     const isLoaded = useSelector( state=> state.isLoaded)
     const isFetching = useSelector( state=> state.isFetching)
+    console.log("IN MAIN")
     useDispatch()(fetchPagesIfNeeded())
     return (
         <>
@@ -58,7 +76,7 @@ const ConditionalSwitch = () => {
             {isLoaded &&
             <Switch>
                 <Route path="/404" component={Page404}/>
-                <Route component={Normalize}/>
+                <Route component={Dispatcher}/>
             </Switch>   
             }
         </>

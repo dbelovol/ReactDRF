@@ -1,4 +1,5 @@
 import React from 'react';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useSelector, useDispatch} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import {setCurrentPage, fetchPageIfNeeded, fetchPagesIfNeeded} from './Redux/Reducers.jsx'
@@ -11,19 +12,20 @@ export default function Dispatcher(props) {
     // Идентификатор текущей страницы заносится в ключ currentPage Redux's state
     // Это делается при помощи аction setCurrentPage
     // Если страницы с указанным адресом нет - то номер текущей приравнивается -1
-
+    console.log ("In dispatcher")
     useDispatch()(setCurrentPage(props.location.pathname))
+    const page  = useSelector (state => {console.log(`Текущая страница -  ${state.currentPage}`); return state.currentPage})
     // console.log("ЭТА!!!   ", props.location.pathname)
-    return (<PageDrawer/>)
+    return (<PageDrawer page={page}/>)
 }
 
 
-function PageDrawer () {
-    useDispatch()(fetchPagesIfNeeded(page))
-    const page  = useSelector (state => state.currentPage)
-    const isLoaded = useSelector (state => currentPage !=-1 ? state.pages[state.currentPage].isLoaded: false)
-    const isFetching = useSelector (state => currentPage !=-1 ? state.pages[state.currentPage].isFetching: false)
-    // console.log("PageDrawer")
+function PageDrawer ({page}) {
+    useDispatch()(fetchPageIfNeeded(page))
+    // const page  = useSelector (state => state.currentPage)
+    const isLoaded = useSelector (state => page !=-1 ? state.pages[page].isLoaded: false)
+    const isFetching = useSelector (state => page !=-1 ? state.pages[page].isFetching: false)
+     console.log("PageDrawer", isFetching, isLoaded)
     return (
     page == -1 ?
     // Если страница не найдена - выводим страницу 404
@@ -41,9 +43,10 @@ function PageDrawer () {
     ))}
     
 export function Page404 () {
+    const status = useMediaQuery('(min-width:600px)')
     return(
     <div>
-    Page Not Found!!!
+    {`Page ${status? "Да": "Нет"} Not Found!!!`}
     </div>
     )
 }

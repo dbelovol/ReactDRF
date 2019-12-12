@@ -1,5 +1,5 @@
 {
-  "name": "JSS",
+  "name": "project",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -17,6 +17,7 @@
     "@material-ui/icons": "^4.2.1",
     "@rehooks/window-scroll-position": "^1.0.1",
     "@rehooks/window-size": "^1.0.2",
+    "css-mediaquery": "^0.1.2",
     "jss": "^9.8.7",
     "normalizr": "^3.4.1",
     "react": "^16.8.6",

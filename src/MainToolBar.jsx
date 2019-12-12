@@ -20,7 +20,7 @@ const selectEntries = state =>
         id: elem, 
         onCurrentPath: elem == state.tree[0].current,
         isCurrent: elem == state.currentPage,
-        name: state.pages[elem].name,
+        name: state.pages[elem].header,
         hasChilds: state.tree[elem].hasOwnProperty('childs'),
         url: React.forwardRef((itemProps, ref) => {
             return (

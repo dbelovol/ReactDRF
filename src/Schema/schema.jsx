@@ -37,7 +37,7 @@ export const pageSchema = new schema.Object(
     link_blocks:[{block: link_block}],
     avatar_blocks:[{block: avatar_block}],
     icon_blocks:[{block: icon_block}],
-    table:[{table: table}],
-    offer:[{offer: offer}]
+    table:[{block: table}],
+    offer:[{block: offer}]
 }
 )
