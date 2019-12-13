@@ -20,12 +20,17 @@ import TestHook from "./TestHook.jsx";
 //import Hover from "./TestHover.jsx"
 import InitialState from "./Redux/InitialState.jsx"
 //import 'typeface-roboto-cyrillic'
-import '@fortawesome/fontawesome-free/css/all.min.css'
+import '@fortawesome/fontawesome-free/css/all.css'
 import rootReducer from './Redux/Reducers.jsx'
 import Dispatcher, {Page404} from './Dispatcher.jsx'
 import {initialState} from './Redux/InitialState.jsx'
 import Normalize from './Normalize.jsx'
 import Test from './test.jsx'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+
 
 
 // Данный прием позволяет импортировать все картинки 
@@ -34,11 +39,12 @@ function importAll(r) {
 }
 importAll(require.context('./Assets/IMG/TMK/',false,/\.jpg$/));
 
+library.add(fab, fas, far)
 
 const tmk_theme = responsiveFontSizes( createMuiTheme({
  palette: {
   primary: { main: '#7a758c' , light: '#f3e5f5'},
-  secondary: { main: '#e54a07' }
+  secondary: { main: '#e54a07', dark: "#a03304" }
 },
 // props: {
 //     // Change the default options of useMediaQuery

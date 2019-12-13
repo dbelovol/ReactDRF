@@ -14,7 +14,7 @@ import MainToolBar from './MainToolBar.jsx'
  */ 
 const appBarDynamicStyles = makeStyles (theme => ({
     colorStyle: {
-        height: props => props.smallHeight,
+        height: props => props.heightProps.smallHeight,
         display: "flex",                // Этот и следующий параметры ВАЖНЫ. Без них надпись не 
         justifyContent: "center",       // центрируется в изменяющем ширину AppBar по высоте!!
         backgroundColor: "transparent",
@@ -22,14 +22,14 @@ const appBarDynamicStyles = makeStyles (theme => ({
         
     },
     colorStyle_1: {
-        height: props => props.bigHeight,
+        height: props => props.heightProps.bigHeight,
         display: "flex",
         justifyContent: "center",
         transition: "all 1s",
     
     },
     transparent: {
-        color: theme.palette.common.black,
+        color: props => props.page == 0 ? theme.palette.common.black : theme.palette.secondary.light,
         transition: "all 1s",
     },
     colored: {
@@ -40,14 +40,14 @@ const appBarDynamicStyles = makeStyles (theme => ({
 }));
 
 
-function useScrollTransform (trigger) {
+function useScrollTransform (trigger, page) {
     /* Кастомный хук, переключающий стили Appbar при достижении вертикального
      * смещения элемента main_page_parallax величины threshold. 
      */
     
     // Создание стилей фона и текста Appbar
     const heightProps = {smallHeight: 80, bigHeight: 90}
-    const textStyles = appBarDynamicStyles(heightProps)
+    const textStyles = appBarDynamicStyles({heightProps, page})
     
     /* Выбор активного набора стилей по значению триггера
      * Смысл - часть стилей задается через props AppBar
@@ -97,7 +97,7 @@ export default function MainAppBar(props) {
                         threshold: 80,
                         });
     
-    const {appProps, typProps, typPropsBott} = useScrollTransform(trigger)
+    const {appProps, typProps, typPropsBott} = useScrollTransform(trigger, props.page)
     
    
     /*
@@ -125,7 +125,7 @@ export default function MainAppBar(props) {
         <Container fixed maxWidth="lg" >
             {
                 !trigger ?
-            <InfoToolBar typProps={typProps}/> :
+            <InfoToolBar page={props.page} typProps={typProps}/> :
             <MainToolBar page={props.page} typProps={typProps}/>  
             }
         </Container>

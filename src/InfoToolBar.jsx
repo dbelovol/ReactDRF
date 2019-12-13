@@ -17,7 +17,7 @@ import Mail from '@material-ui/icons/Mail';
 const appBarStaticStyles = makeStyles (theme => ({
     typografy:{
         //opacity: "1.0",
-        //color : "black",
+        
         padding: theme.spacing(2),
         textTransform: "lowercase",
         [theme.breakpoints.down('md')]:{

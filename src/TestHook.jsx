@@ -34,6 +34,7 @@ import BlockOfText from './BlockOfText.jsx'
 import FormWithHeader from './FormWithHeader.jsx'
 import FooterContent from './FooterContent.jsx'
 import MainAppBar from './MainAppBar.jsx'
+import HeaderInfo from './HeaderInfo.jsx'
 
 
 const componentArray = [ "blockOfLinks",
@@ -86,7 +87,7 @@ const useTransparent_1 = makeStyles(theme => ({
         // Почему это работает и нало делать именно так - не вполне понимаю. 
         "&:before": {
             background: theme.palette.primary.dark, // цвет фильтра
-            opacity: props => props.page == 0 ? "0.3" : "0.6"                          // прозрачность
+            opacity: props => props.page == 0 ? "0.3" : "0.8"                          // прозрачность
         },
         "&:after,&:before": {
             position: "absolute",
@@ -241,6 +242,9 @@ const useTransparent_1 = makeStyles(theme => ({
     bottomText: {
         color: theme.palette.grey[800],
         transition: "all 1s",
+    },
+    h2sel:{
+        fontWeight : theme.typography.fontWeightMedium
     }
 }));
 
@@ -253,7 +257,7 @@ export default function ElevateAppBar(props) {
     const pictureTrigger = useScrollTrigger({
         disableHysteresis: true,
         target: elem ? elem : window,
-        threshold: windowDims.innerHeight,
+        threshold: windowDims.innerHeight*1.5,
     });
     const qur_theme = useTheme();
     const down_md = useMediaQuery(qur_theme.breakpoints.down('md'))
@@ -292,8 +296,9 @@ export default function ElevateAppBar(props) {
 
             <div className={imageStyles.parallax} id="main_page_parallax">
                 <div className={imageStyles.parallax__layer_top}>
-                    {/*Картинка параллакса головы с содержимым*/}
-                    {props.page == 0 || !pictureTrigger ?
+                    <HeaderInfo page={props.page} pictureTrigger={pictureTrigger}/>
+                    {/*Картинка параллакса головы с содержимым
+                    { !pictureTrigger ?
                         <div
                             className={`${imageStyles.img} ${imageStyles.parallax__layer__back} ${imageStyles.filter} ${imageStyles.parallax__layer__bott}`}
                             style={{ backgroundImage: "url(" + picture + ")" }}
@@ -302,11 +307,11 @@ export default function ElevateAppBar(props) {
                     <Container className={` ${imageStyles.parallax__layer__base} `} maxWidth="lg" fixed>
                         <Grid container justify="flex-start" alignItems="center" style={{ height: "90vh" }}>
                             <Grid item xs={12}>
-                                <Typography variant="h2"> ТМК ПЛЮС</Typography>
+                                <Typography classes={props.page !=0 ? {h2: imageStyles.h2sel} : {}} variant="h2"> ТМК ПЛЮС</Typography>
                                 <Typography variant="h6"> Освобождаем от рутины</Typography>
                             </Grid>
                         </Grid>
-                    </Container>
+                </Container>*/}
                 </div>
                 {/*Картинка параллакса головы с содержимым*/}
                 <Container fixed maxWidth="lg" style={{ zIndex: "12" }} className={imageStyles.parallax__layer__base}>
