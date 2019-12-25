@@ -12,6 +12,9 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {Link as RouterLink} from 'react-router-dom';
+import {pageHeaderPrepare} from './Utils/Selectors';
+import {HeaderContent} from './HeaderInfo.jsx'
+ 
 
 
 
@@ -37,16 +40,17 @@ const useStyles = makeStyles(theme => ({
     filter: {
       
         background: `linear-gradient(180deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`, // цвет фильтра
-        opacity: "0.75",
+        opacity: "0.95",
         position: "absolute",
         zIndex: theme.zIndex.appBar+1,
         margin: theme.spacing(1),
-        display: "block",
+        display: "flex",
+        padding: theme.spacing(2),
         left: 0,
         right: 0,
         top: 0,
         bottom: 0,
-        content: "''"
+        // content: "''"
       
     }
   }));
@@ -65,7 +69,8 @@ export default function RenderPage ({page}){
                         nodeid={node}
                         onMouseOver={(e) => setHovered({
                             ...hovered,
-                            picture: state.pages[e.currentTarget.getAttribute('nodeid')].picture
+                            picture: state.pages[e.currentTarget.getAttribute('nodeid')].picture,
+                            pageInfo: pageHeaderPrepare(state, e.currentTarget.getAttribute('nodeid'))
                         })}
                         onMouseOut={(e) => setHovered( prevState => prevState)}
                         component={node==state.currentPage ? "button" : RouterLink}
@@ -98,7 +103,8 @@ export default function RenderPage ({page}){
                     nodeid={node}
                     onMouseOver={(e) => setHovered({
                         ...hovered,
-                        picture: state.pages[e.currentTarget.getAttribute('nodeid')].picture
+                        picture: state.pages[e.currentTarget.getAttribute('nodeid')].picture,
+                        pageInfo: pageHeaderPrepare(state, e.currentTarget.getAttribute('nodeid'))
                     })}
                     onMouseOut={(e) => setHovered( prevState => prevState)}
                     component={node==state.currentPage ? "button" : RouterLink}
@@ -123,9 +129,20 @@ export default function RenderPage ({page}){
         console.log(arrayCollapse)
         return arrayCollapse
     }))
-    const curPicture = useSelector(state=> ({picture: state.pages[page].picture, id: page}))
+    //Селектор срабатывает при изменении свойства page
+    //Фактически задает начальное знаение для содержимого POPPER
+    const curPicture = useSelector(state=> ({
+                                    picture: state.pages[page].picture, 
+                                    id: page,
+                                     pageInfo: pageHeaderPrepare(state,page)
+                                }))
     const [hovered, setHovered] = useState(curPicture)
-   
+    // При наведении мыши ВНУТРИ поппера срабатывает setHovered. То есть 
+    // выводится то, чо хранится в hovered
+    // При переключении page в результате движения мыши инстанс POPPER не меняется
+    // а значит перенинициализации hovered НЕ ПРОИЗОЙДЕТ. Для этого используется useEffect
+    // Иными словами, он нужен для корректной переинициализации hovered при ИЗМЕНЕНИИ ref
+    // POPPER
     useEffect(()=> setHovered(prevState => prevState.id != curPicture.id ? 
           curPicture: prevState
      ))
@@ -143,8 +160,13 @@ export default function RenderPage ({page}){
                 style={{
                      backgroundImage: `url(${hovered.picture})`,
                 }}
-            />
-            <div className={classes.filter}/>
+            >
+            </Paper>
+            
+            <div className={classes.filter}>
+                {/* Очень важно, чтобы было установлено свойство display = flex */}
+                 <HeaderContent page={1} mode="" pageInfo={hovered.pageInfo} /> 
+            </div>
         </Grid>
     </Grid>
     )

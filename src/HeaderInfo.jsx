@@ -4,8 +4,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import {useSelector} from 'react-redux'
-import {createSelector} from 'reselect'
+//import {createSelector} from 'reselect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {pageHeaderSelector} from './Utils/Selectors'
 
 const headerClasses = makeStyles(theme => ({
 
@@ -16,7 +17,7 @@ const headerClasses = makeStyles(theme => ({
         overflow: "hidden",
         // position: "relative", //Необходимо, чтобы корректно наложить фильтр (там position - absolute) 
         backgroundPosition: "right top",
-        backgroundSize: "70%",
+        backgroundSize: props => props.page == 0? "70%": "cover",
         backgroundRepeat: "no-repeat",
         [theme.breakpoints.down('sm')]: {  //Переключение позиционирования фона на малых экранах
             backgroundSize: "100%",
@@ -70,26 +71,30 @@ const headerClasses = makeStyles(theme => ({
     parallax__layer__bott: {//Включение АБСОЛЮТНОГО позиционирования картинки
         position: "absolute",
     },
-    h2sel:{// Включение жирного шрифта на дочерних страницах
+    hxsel:{// Включение жирного шрифта на дочерних страницах
         fontWeight : props => props.page != 0 ? theme.typography.fontWeightMedium : theme.typography.fontWeightLight
     },
     typography:{// Включение белого цвета текста в заголовке дочерней страницы
-        color: props => props.page == 0 ? theme.palette.common.black : theme.palette.common.white
+        color: props => props.page == 0 ? 
+                            theme.palette.common.black : 
+                            props.mode == "main" ? 
+                                theme.palette.common.white:
+                                theme.palette.common.black
     }
 }));
 
 // Функция, извлекающая и нормализующая инофрмацию о заголовке страницы из store
-const pageHeaderPrepare = (state) => {
-    let res = Object.assign({}, state.pages[state.currentPage])
-    res = Object.assign(res, {features: res.features.map(item => state.features[item])})
-    return res
-}
+// const pageHeaderPrepare = (state) => {
+//     let res = Object.assign({}, state.pages[state.currentPage])
+//     res = Object.assign(res, {features: res.features.map(item => state.features[item])})
+//     return res
+// }
 
-// Создание запоминающего селектора. 
-const pageHeaderSelector = createSelector (
-    pageHeaderPrepare,
-    res => res
-)
+// // Создание запоминающего селектора. 
+// const pageHeaderSelector = createSelector (
+//     pageHeaderPrepare,
+//     res => res
+// )
 
 
 
@@ -124,46 +129,97 @@ export default function pageHeadersRequest(props) {
         /> : ""
     }
     <Container className={` ${classes.parallax__layer__base} `} maxWidth="lg" fixed>
-    {/* Заголовок главной страницы выводится иначе. */}
-        {props.page ==0 ?
-        <Grid container justify="flex-start" alignItems="center" style={{ height: "90vh" }}>
-            <Grid item xs={12}>
-                <Typography className={classes.typography} classes={{h2: classes.h2sel}} variant="h2"> {pageInfo.header}</Typography>
-                <Typography className={classes.typography} variant="h6"> {pageInfo.text}</Typography>
-            </Grid>
-        </Grid>:
-        <Grid container justify="space-around" alignItems="center" direction="column" style={{ height: "90vh" }}>
-            {/** Вставка полоски, иначе заголовок страницы наезжает на тулбар */}
-            <Grid item style={{height: "40px"}}/>
-            <Grid item >
-                <Typography className={classes.typography} classes={{h2: classes.h2sel}} variant="h2"> {pageInfo.header}</Typography>
-            </Grid>
-            <Grid item>
-                <Typography className={classes.typography} variant="h6" align="justify"> {pageInfo.text}</Typography>
-            </Grid>
-            <Grid item container justify="space-between" >
-                {pageInfo.features.map( feature => 
-                        <Grid key={feature.id} item xs={4} container direction="column" alignItems="center">
-                            <Grid item >
-                                <Typography className={classes.typography} variant="h6">{feature.name}</Typography>
-                            </Grid>
-                            <Grid item >
-                                <Typography className={classes.typography} variant="h6" >
-                                    {/**Если цена содержит [P|р]уб c точкой либо без, то
-                                     * в начале вставляется От, а руб заменяется иконкой рубля
-                                      */}
-                                    {feature.measure.search(/[Рр]уб\.?/) != -1 ? "От ": ""}
-                                    {feature.price}
-                                    {feature.measure.search(/[Рр]уб\.?/) != -1 ?
-                                        <FontAwesomeIcon icon={['fas', 'ruble-sign']}/> : ""}
-                                    {feature.measure.replace(/[Рр]уб\.?/, "")}
-                                </Typography>
-                            </Grid>
-                        </Grid>    
-                )}
-            </Grid>
-        </Grid>
-        }
+        <HeaderContent page={props.page} mode={"main"} pageInfo={pageInfo}/>
     </Container>
     </>
     )}
+
+export const HeaderContent = (props) => {
+/*
+    Функция вывода содержимого заголовка страницы
+    Аргументы
+        page - номер страницы, который передаеся POPPERу при его включении. 
+        ВАЖНО!! при наведении мыши ВНУТРИ POPPERа переключения НЕ ПРОИСХОДИТ
+        mode - режим работы. 
+            "main" - вызывается из тела страницы
+            "" -     вызывается из POPPER
+        pageInfo - данные, извлеченные из store. Данные обновляются и внутри POPPER
+*/
+    const {page, mode, pageInfo} = props
+    const classes = headerClasses(props)
+    // const pageInfo = useSelector(pageHeaderSelector)
+    return (
+        /* Заголовок главной страницы выводится иначе. */
+        page ==0 ?
+            <Grid container justify="flex-start" alignItems="center" style={mode =="main" ? { height: "90vh" }: ""}>
+                <Grid item xs={12}>
+                    <Typography 
+                        className={classes.typography} 
+                        classes={{h1: classes.hxsel, h6: classes.hxsel,}}
+                        variant={mode == "main"? "h1": "h6"}>
+                             {pageInfo.header}
+                    </Typography>
+                    <Typography 
+                        className={classes.typography}
+                        variant={mode == "main"? "h6": "caption"}
+                    > 
+                        {pageInfo.text}
+                    </Typography>
+                </Grid>
+            </Grid>:
+            <Grid container 
+                justify="space-around" 
+                alignItems="center" 
+                direction="column" 
+                style={mode =="main" ? { height: "90vh" }: { }}>
+                {/** Вставка полоски, иначе заголовок страницы наезжает на тулбар */}
+                {mode == 'main' ? <Grid item style={{height: "40px"}}/>: ""}
+                <Grid item >
+                    <Typography 
+                        className={classes.typography} 
+                        classes={{h1: classes.hxsel, h6: classes.hxsel,}}
+                        variant={mode == "main"? "h1": "h6"}>
+                            {pageInfo.header}
+                    </Typography>
+                </Grid>
+                <Grid item>
+                    <Typography 
+                        className={classes.typography} 
+                        variant={mode == "main"? "h6": "body2"}
+                        align="justify"
+                        > 
+                            {pageInfo.text}
+                    </Typography>
+                </Grid>
+                <Grid item container justify="space-between" >
+                    {pageInfo.features.map( feature => 
+                            <Grid key={feature.id} item xs={4} container direction="column" alignItems="center">
+                                <Grid item >
+                                    <Typography 
+                                        className={classes.typography} 
+                                        variant={mode == "main"? "h6": "caption"}>
+                                            {feature.name}
+                                    </Typography>
+                                </Grid>
+                                <Grid item >
+                                    <Typography 
+                                        className={classes.typography} 
+                                        variant={mode == "main"? "h6": "caption"}>
+                                            {/**Если цена содержит [P|р]уб c точкой либо без, то
+                                             * в начале вставляется От, а руб заменяется иконкой рубля
+                                                 */}
+                                            {feature.measure.search(/[Рр]уб\.?/) != -1 ? "От ": ""}
+                                            {feature.price}
+                                            {feature.measure.search(/[Рр]уб\.?/) != -1 ?
+                                                <FontAwesomeIcon icon={['fas', 'ruble-sign']}/> : ""}
+                                            {feature.measure.replace(/[Рр]уб\.?/, "")}
+                                    </Typography>
+                                </Grid>
+                            </Grid>    
+                    )}
+                </Grid>
+            </Grid>
+            
+    )
+
+}
