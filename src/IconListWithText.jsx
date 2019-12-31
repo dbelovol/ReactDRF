@@ -1,89 +1,100 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Container from "@material-ui/core/Container";
-import Icon from '@material-ui/core/Icon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { makeStyles } from '@material-ui/core/styles';
+import {makeBlockSelector} from './Utils/Selectors'
+import {useSelector} from 'react-redux'
 
-const images = {
-    header: "Преимущества работы с нами",
-    icons:[
-    {
-    icon: "fa fa-laptop",
-    title: 'Используем современные технологии',
-    
-   
-  },
-  {
-    icon: "fa fa-pen-square",
-    title: 'Работаем по договору',
-    
-  },
-  {
-    icon: 'fa fa-boxes',
-    title: 'Оказываем комплексные услуги',
 
-  },
-  {
-    icon: "fa fa-trash",
-    title: 'Выполняем ликвидацию в минимально возможные сроки',
-    
-   
-  },
-  {
-    icon: "fa fa-certificate",
-    title: 'Гарантируем успешную регистрацию',
-    
-  },
-  {
-    icon: 'fa fa-people-carry',
-    title: 'пше ',
 
-  },
-  ]
-};
-
-const useStyle = makeStyles ({
+const useStyle = makeStyles ( theme=> ({
     icon: {
         overflow: "visible"
     },
     text: {
         textTransform: "uppercase"
+    },
+    item: {
+      padding: theme.spacing(1)
+    }, 
+    subitem: {
+      padding: theme.spacing(1)
+    },
+    header: {
+      padding: theme.spacing(2),
+      marginRight: -theme.spacing(1) 
     }
 
-});
+}));
 
 export default function IconListWithText(props) {
 
     /* Данная функция формирует список иконок с подписью под ними
      * Иконки с подписями помещаются в контейнер на белом (бумажном) фоне
      * Максимальная ширина контейнера - 1200 px.
-     * Заголовок центрируется по ширине
+     * Заголовок центрируется по ширин
      */
-    const {className} = props
+    const {className, side, id} = props
     const iconStyle = useStyle()
+    // const position = "U"
+    const iconDataSelector= useMemo (
+      makeBlockSelector, 
+      []
+    )
+    const iconData =  useSelector (state => 
+        iconDataSelector(state, {id: id, type: "icon_blocks"})
+      )
+    console.log(iconData)
     return(
     
         
-            <Grid container  justify="space-around" spacing={8} className={className}>
-            <Grid item xs={12}>
+            <Grid container  alignItems="center"  direction="column" className={className}>
+            <Grid item  className={iconStyle.header }>
                 <Typography variant="h4" className={iconStyle.text} align="center">
-                    {images.header}
+                    {iconData.header}
                 </Typography>
             </Grid>
-            {images.icons.map(image => (
-                <Grid item container xs={12} md={6} lg={4} spacing={2} direction="column" alignItems="center" key={image.title}>
-                    <Grid item >
-                        <Icon className={`${iconStyle.icon} ${image.icon}`} fontSize="large" color="secondary" />
+            <Grid item container> 
+            {iconData.icons.map(image => (
+                <Grid item 
+                  className={iconStyle.item } 
+                  container 
+                  xs={12} md={6} lg={4}  
+                  direction= {iconData.position == "S"? "row": "column"} 
+                  alignItems="center" 
+                  justify="flex-start"
+                  key={image.header}
+                >
+                    {iconData.position == "S"?  
+                    <>
+                    <Grid item xs={4} className={iconStyle.subitem }>
+                      <Typography variant="h3" align="center" className={iconStyle.text} color="secondary">
+                          <FontAwesomeIcon icon={image.name.trim().split(/\s+/)}/>
+                      </Typography>    
                     </Grid>
-                    <Grid item >
-                        <Typography variant="h6" align="center" className={iconStyle.text}>
-                            {image.title}
+                    <Grid item xs={8 } className={iconStyle.subitem }>
+                        <Typography variant="body1" align="center" className={iconStyle.text}>
+                            {image.header}
                         </Typography>
                     </Grid>
+                    </>:
+                    <>
+                    <Grid item className={iconStyle.subitem }>
+                      <Typography variant="h3" align="center" className={iconStyle.text} color="secondary">
+                        <FontAwesomeIcon icon={image.name.trim().split(/\s+/)}/>
+                      </Typography>    
+                    </Grid>
+                    <Grid item  className={iconStyle.subitem }>
+                      <Typography variant="body1" align="center" className={iconStyle.text}>
+                          {image.header}
+                      </Typography>
+                    </Grid>
+                    </>
+                  }
                 </Grid>
                 ))}
+            </Grid>
             </Grid>
         
    
