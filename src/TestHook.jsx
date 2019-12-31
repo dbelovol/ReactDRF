@@ -180,10 +180,12 @@ const useTransparent_1 = makeStyles(theme => ({
     //---обеспечить наезжание на картинки параллакса в голове и подвале----------------//
 
     paper: {
-        padding: theme.spacing(8),
+        // padding: theme.spacing(1),
         //  marginTop: -theme.spacing(8),
         marginBottom: -theme.spacing(8),
-        boxShadow: theme.shadows[10]
+        boxShadow: theme.shadows[10],
+        // display: "block",
+        padding: "24px"
     },
     //----------------------------------------------------------------------------------//    
 
@@ -221,7 +223,6 @@ const useTransparent_1 = makeStyles(theme => ({
     parallax__layer__base: {//Быстрый слой
         transform: "translateZ(0)",
         position: "relative",
-
         zIndex: 2
     },
     parallax__layer__back: {
@@ -319,7 +320,7 @@ export default function ElevateAppBar(props) {
                         {
                             componentArray.map(el => {
                                 const Comp = componentMap[el]
-                                return <Comp className={imageStyles.elements} key={el}/>
+                                return <Comp className={imageStyles.elements} side={"L"} id={1} key={el}/>
                             }
                                 
                             )

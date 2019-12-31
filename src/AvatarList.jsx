@@ -51,7 +51,10 @@ const useStyle = makeStyles (theme => ({
         borderWidth: 1,
         borderColor: theme.palette.primary.main,
         borderRadius: 15,
-        boxShadow: theme.shadows[2]
+        // boxShadow: theme.shadows[2]
+    },
+    paddings:{
+        paddingLeft: theme.spacing(2)
     }
 
 }));
@@ -70,14 +73,14 @@ export default function IconListWithText(props) {
     return(
     
         
-            <Grid container  justify="space-around" spacing={8} className={`${className} ${iconStyle.border}`}>
+            <Grid container  justify="space-around"   className={`${className} ${iconStyle.border}`}>
             <Grid item xs={12}>
                 <Typography variant="h4"  align="center" className={iconStyle.text}>
                     {images.header}
                 </Typography>
             </Grid>
             {images.avatars.map(image => (
-                <Grid item container xs={12} md={6} lg={4} spacing={2} direction="column" alignItems="center" key={image.title}>
+                <Grid item container xs={12} md={6} className={iconStyle.paddings} lg={4}  direction="column" alignItems="center" key={image.title}>
                     <Grid item >
                         <Avatar src={image.avatar} className={iconStyle.avatar}/>
                     </Grid>

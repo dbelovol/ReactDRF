@@ -74,6 +74,9 @@ const headerClasses = makeStyles(theme => ({
     hxsel:{// Включение жирного шрифта на дочерних страницах
         fontWeight : props => props.page != 0 ? theme.typography.fontWeightMedium : theme.typography.fontWeightLight
     },
+    bodyToCaption: {
+        fontSize: theme.typography.caption.fontSize
+    },
     typography:{// Включение белого цвета текста в заголовке дочерней страницы
         color: props => props.page == 0 ? 
                             theme.palette.common.black : 
@@ -184,7 +187,8 @@ export const HeaderContent = (props) => {
                 </Grid>
                 <Grid item>
                     <Typography 
-                        className={classes.typography} 
+                        className={classes.typography}
+                        classes = {{body2: classes.bodyToCaption}} 
                         variant={mode == "main"? "h6": "body2"}
                         align="justify"
                         > 

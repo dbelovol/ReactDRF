@@ -51,7 +51,7 @@ const images = []
 export default function ButtonBases() {
 
   const grd = useStyle() 
-  images = useSelector(state => state.pages.filter(page => state.tree[0].childs.includes(page.id)).map(el => ({url:el.picture, title:el.name}))
+  images = useSelector(state => state.pages.filter(page => state.tree[0].childs.includes(page.id)).map(el => ({url:el.picture, title:el.name})))
   console.log (images.length)
   return (
     <Grid container spacing={8} justify="center">

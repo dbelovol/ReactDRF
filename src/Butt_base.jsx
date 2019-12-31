@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
@@ -6,8 +6,11 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
 import Container from "@material-ui/core/Container";
 import Icon from '@material-ui/core/Icon';
+import {makeBlockSelector} from './Utils/Selectors'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 //import Team from './Assets/IMG/TMK/Depositphotos_33035993_xl-2015.jpg'
@@ -39,6 +42,13 @@ const useStyles = makeStyles(theme => ({
     flexWrap: 'wrap',
     minWidth: 300,
     width: '100%',
+  },
+  avatar: {
+    width: 150,
+    height: 150
+  },
+  body1Toh6: {
+      fontWeight : theme.typography.fontWeightMedium
   },
   image: {
     position: 'relative',
@@ -121,31 +131,63 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ButtonBases(props) {
-    const {className} = props
+  /*
+    Компонент, формирующий блок ссылок. 
+    В качестве  id получает номер блока в массиве link_blocks store
+    Имеет несколько форм отображения
+      - если mode - true, то это картинки,иначе - аватары
+    в случае вывода картинок в качестве информации на картинке используется название 
+    страницы.
+    в случае вывода аватаров помимо названия страницы еще выводится текст и некая базвая цена услуги
+  */
+    const {className, id} = props
+    // Создание мемоизированного селектора для извлечения информации
+    // По данным блока
+    const linkDataSelector= useMemo (
+      makeBlockSelector, 
+      []
+    )
+    //  Получение информации о данных блока. Используется переданный в качестве prop
+    //  идентификатор блока
+    const linkData =  useSelector (state => 
+      linkDataSelector(state, {id: id, type: "link_blocks"})
+    )
+    //console.log("LINKDATA", linkData)
     const classes = useStyles();
-    const images = useSelector(state => Object.entries(state.pages).
-                              filter(([pageid, pageinfo]) => state.tree[0].childs.includes(String(pageid))).
-                              map(([pageid, pageinfo]) => ({url:pageinfo.picture, title: pageinfo.header, width:"100%", to: 
-       
-            React.forwardRef((itemProps, ref) => (
-        // with react-router-dom@^5.0.0 use `ref` instead of `innerRef`
-                <RouterLink to={pageinfo.url} {...itemProps} innerRef={ref} />
-        ))
-})))
-    console.log(images.length, images[0])
+    //  В данных блока иформация по ссылкам на страницу представлена в виде
+    //  идентификаторов страниц. Для рендеринга нужно иметь информацию по 
+    //  данным страницы. Извлекаем ее из store и помещаем в данные вместо идентификаторов
+    linkData.links = useSelector(state => linkData.links.map(elem => ({
+                                  ...elem,
+                                  url: state.pages[elem.page].picture,
+                                  title: state.pages[elem.page].header,
+                                  width: "100%", 
+                                  // Ссылки реализованы ВНУТРИ базовой кнопки либо аватара
+                                  // Оба эти компонента делают форвард реф на рут
+                                  // Мы в качесте рута подставляем компонент Link библиотеки RecatRouter
+                                  // ПОэтому мы должны поддержать форвард реф
+                                  to:  React.forwardRef((itemProps, ref) => (
+                                      // with react-router-dom@^5.0.0 use `ref` instead of `innerRef`
+                                      <RouterLink to={state.pages[elem.page].url} {...itemProps} innerRef={ref} />
+                                      ))
+    })))
+   
     
-    
+    linkData.mode = false
+    let position = "S"
     
 
   return (
-        <Grid container spacing={8} justify="center" className={className}>
-            <Grid item xs={12} >
+        
+        <Grid container alignItems="center" direction="column" className={className}>
+            <Grid item >
                 <Typography variant="h4" align="center" style={{textTransform: "uppercase"}}>
-                    что мы делаем
+                    {linkData.header}
                 </Typography>
             </Grid>
-            <Grid item sm={12} container spacing={2} justify="center">
-                {images.map(image => (
+            {linkData.mode ?
+            <Grid item container spacing={2} justify="center">
+                {linkData.links.map(image => (
                 <Grid item xs={12} md={6} key={image.title}>
                     <ButtonBase
                     focusRipple
@@ -181,7 +223,47 @@ export default function ButtonBases(props) {
                     </ButtonBase>
                 </Grid>
                 ))}
+            </Grid>:
+            <Grid item container spacing={2} justify="center">
+              {linkData.links.map( item => (
+                <Grid 
+                  container
+                  item xs={12} 
+                  md={6} lg={4}
+                  key={item.id} 
+                  direction ={position == "S" ? "row": "column"}
+                  alignItems="center"
+                >
+                  <Grid item xs={position == "S"? 5: false }>
+                      <Avatar src={item.url} className={classes.avatar} component={item.to}/>
+                  </Grid>
+                  <Grid 
+                    item xs={position == "S"? 7: false } 
+                    container 
+                    direction= "column" 
+                    alignItems="center" >
+                      <Grid item>
+                        <Typography variant="body1" align="center" classes={{body1: classes.body1Toh6}}>
+                          {item.title}
+                        </Typography>
+                        <Typography variant="body2" align="justify">
+                          {item.text}
+                        </Typography>
+                        <Typography variant="body2" align="center">
+                          {item.measure.search(/[Рр]уб\.?/) != -1 ? "От ": ""}
+                          {item.price}
+                          {item.measure.search(/[Рр]уб\.?/) != -1 ?
+                              <FontAwesomeIcon icon={['fas', 'ruble-sign']}/> : ""}
+                          {item.measure.replace(/[Рр]уб\.?/, "")}
+                        </Typography>
+                      </Grid>    
+                  </Grid>
+                  
+                </Grid>
+              )
+              )}
             </Grid>
-         </Grid>   
+            }
+         </Grid> 
   );
 }
