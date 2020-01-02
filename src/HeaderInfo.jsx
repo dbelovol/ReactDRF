@@ -21,7 +21,7 @@ const headerClasses = makeStyles(theme => ({
         backgroundRepeat: "no-repeat",
         [theme.breakpoints.down('sm')]: {  //Переключение позиционирования фона на малых экранах
             backgroundSize: "100%",
-            backgroundPosition: "right center",
+            backgroundPosition: "right bottom",
 
         },
         backgroundColor: "white", // Нужно потому, что картинка в голове не полностью закрывает фон
@@ -181,6 +181,7 @@ export const HeaderContent = (props) => {
                     <Typography 
                         className={classes.typography} 
                         classes={{h1: classes.hxsel, h6: classes.hxsel,}}
+                        align="center"
                         variant={mode == "main"? "h1": "h6"}>
                             {pageInfo.header}
                     </Typography>

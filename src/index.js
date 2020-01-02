@@ -44,7 +44,7 @@ library.add(fab, fas, far)
 const tmk_theme = responsiveFontSizes( createMuiTheme({
  palette: {
   primary: { main: '#7a758c' , light: '#f3e5f5'},
-  secondary: { main: '#e54a07', dark: "#a03304" }
+  secondary: { main: '#e54a07', dark: "#a03304", light: '#ffccbc' }
 },
 // props: {
 //     // Change the default options of useMediaQuery

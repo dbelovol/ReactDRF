@@ -20,7 +20,9 @@ export const pageHeaderSelector = createSelector (
 export const blockPrepare = (state, {id, type}) => {
     console.log("CALL iconBlockPrepare---", id)
     let res = Object.assign({}, state[type][id])
+    if (blockMap.hasOwnProperty(type)){
     res = Object.assign(res, {[blockMap[type]]: res[blockMap[type]].map( elem => state[blockMap[type]][elem])})
+    }
     return res
 }
 
@@ -34,4 +36,30 @@ export const makeBlockSelector = () => {
         res => res  
       )
 }
+
+const breadCrumbPrepare = (state) => {
+    const parser = (node, res) => {
+        res.push([state.pages[node].header,state.pages[node].url])
+        if (state.tree[node].parent != node) {
+            return parser(state.tree[node].parent, res)
+        }
+    }
+    let data = []
+    data.push([state.pages[state.currentPage].header, ""])
+    // console.log("---IN BC. ПРОШЛО!!!")
+    if (state.currentPage == "0") {
+        return data
+    }
+    else {
+        parser(state.tree[state.currentPage].parent, data)
+    }
+    return data.reverse()
+}
+
+// Создание запоминающего селектора для информации о хлебных крошках. 
+export const breadCrumbSelector = createSelector (
+    breadCrumbPrepare,
+    res => res
+)
+
     

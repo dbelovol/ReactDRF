@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Container from "@material-ui/core/Container";
-import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
+import {makeBlockSelector} from './Utils/Selectors'
+import {useSelector} from 'react-redux'
 
 const blocks = {
     header: "преимущества аутсорсинга вспомогательных бизнес-процессов",
@@ -44,6 +43,15 @@ const useStyle = makeStyles (theme => ({
         borderRadius: 15,
         boxShadow: theme.shadows[2]
     },
+    item: {
+        padding: theme.spacing(2)
+    }, 
+    subitem: {
+        padding: theme.spacing(1)
+    },
+    header: {
+        padding: theme.spacing(5),  
+    }
 
 }));
 
@@ -52,22 +60,30 @@ export default function BlockOfText(props) {
     /* Данный компонент выводит параграф с переменным числом абзацев
      */
     
-    const {className} = props
+    const {className, id} = props
     const iconStyle = useStyle()
+    const textDataSelector= useMemo (
+      makeBlockSelector, 
+      []
+    )
+    const textData =  useSelector (state => 
+        textDataSelector(state, {id: id, type: "text_blocks"})
+      )
+    
     return(
     
         
-            <Grid container  justify="center" spacing={8} className={`${className} ${iconStyle.border}`}>
-            <Grid item xs={12}>
-                <Typography variant="h4" className={iconStyle.text} align="center">
-                    {blocks.header}
+            <Grid container  direction="column" alignItems="center" className={`${className} `}>
+            <Grid item className={iconStyle.header}>
+                <Typography variant="h4" className={`${iconStyle.text}`} align="center">
+                    {textData.header}
                 </Typography>
             </Grid>
-            <Grid item container xs={12} spacing={2}>
-            {blocks.blocks.map((image,index) => (
-                <Grid item xs={12} key={index} >
+            <Grid item container direction="column" alignItems="center">
+            {textData.paragraphs.map((image,index) => (
+                <Grid item key={index} className={iconStyle.subitem}>
                         <Typography variant="body1" align="justify">
-                            {image.content}
+                            {image.text}
                         </Typography>
                  </Grid>
                 

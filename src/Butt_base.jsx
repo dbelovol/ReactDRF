@@ -43,6 +43,16 @@ const useStyles = makeStyles(theme => ({
     minWidth: 300,
     width: '100%',
   },
+  item: {
+    padding: theme.spacing(2)
+  }, 
+  subitem: {
+    padding: theme.spacing(1)
+  },
+  header: {
+    padding: theme.spacing(5),
+    
+  },
   avatar: {
     width: 150,
     height: 150
@@ -173,22 +183,22 @@ export default function ButtonBases(props) {
     })))
    
     
-    linkData.mode = false
+    // linkData.mode = false
     let position = "S"
     
 
   return (
         
         <Grid container alignItems="center" direction="column" className={className}>
-            <Grid item >
+            <Grid item className={classes.header}>
                 <Typography variant="h4" align="center" style={{textTransform: "uppercase"}}>
                     {linkData.header}
                 </Typography>
             </Grid>
             {linkData.mode ?
-            <Grid item container spacing={2} justify="center">
+            <Grid item container justify="center">
                 {linkData.links.map(image => (
-                <Grid item xs={12} md={6} key={image.title}>
+                <Grid item xs={12} md={6} className={classes.subitem} key={image.title}>
                     <ButtonBase
                     focusRipple
                     component={image.to}
@@ -224,22 +234,24 @@ export default function ButtonBases(props) {
                 </Grid>
                 ))}
             </Grid>:
-            <Grid item container spacing={2} justify="center">
+            <Grid item container justify="center">
               {linkData.links.map( item => (
                 <Grid 
                   container
                   item xs={12} 
                   md={6} lg={4}
                   key={item.id} 
-                  direction ={position == "S" ? "row": "column"}
+                  direction ={linkData.position == "S" ? "row": "column"}
                   alignItems="center"
+                  className={classes.item}
                 >
-                  <Grid item xs={position == "S"? 5: false }>
+                  <Grid item xs={linkData.position == "S"? 6: false } className={classes.subitem}>
                       <Avatar src={item.url} className={classes.avatar} component={item.to}/>
                   </Grid>
                   <Grid 
-                    item xs={position == "S"? 7: false } 
+                    item xs={linkData.position == "S"? 6: false } 
                     container 
+                    className={classes.subitem}
                     direction= "column" 
                     alignItems="center" >
                       <Grid item>

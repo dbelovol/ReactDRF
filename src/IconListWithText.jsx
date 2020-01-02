@@ -16,14 +16,14 @@ const useStyle = makeStyles ( theme=> ({
         textTransform: "uppercase"
     },
     item: {
-      padding: theme.spacing(1)
+      padding: theme.spacing(2)
     }, 
     subitem: {
       padding: theme.spacing(1)
     },
     header: {
-      padding: theme.spacing(2),
-      marginRight: -theme.spacing(1) 
+      padding: theme.spacing(5),
+      // marginRight: -theme.spacing(1) 
     }
 
 }));
@@ -57,14 +57,13 @@ export default function IconListWithText(props) {
             </Grid>
             <Grid item container> 
             {iconData.icons.map(image => (
-                <Grid item 
+                <Grid item key={image.id}
                   className={iconStyle.item } 
                   container 
                   xs={12} md={6} lg={4}  
                   direction= {iconData.position == "S"? "row": "column"} 
                   alignItems="center" 
                   justify="flex-start"
-                  key={image.header}
                 >
                     {iconData.position == "S"?  
                     <>

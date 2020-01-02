@@ -35,13 +35,18 @@ import FormWithHeader from './FormWithHeader.jsx'
 import FooterContent from './FooterContent.jsx'
 import MainAppBar from './MainAppBar.jsx'
 import HeaderInfo from './HeaderInfo.jsx'
+import Table from './Table.jsx'
+import Offer from './Offer.jsx'
+import BreadCrumbs from './BreadCrumb.jsx'
 
 
 const componentArray = [ "blockOfLinks",
                          "iconListWithText",
                          "avatarList",
                          "blockOfText",
-                         "formWithHeader"
+                         "formWithHeader",
+                         "table",
+                         "offer"
                         ]
 
 const componentMap = {
@@ -50,6 +55,8 @@ const componentMap = {
     "avatarList": AvatarList,
     "blockOfText": BlockOfText,
     "formWithHeader": FormWithHeader,
+    "table": Table,
+    "offer": Offer
 }                        
 /* Хук для задания стилей картинки параллакса в голове 
  * и подвале страницы, а также набор вспомогательных
@@ -69,7 +76,7 @@ const useTransparent_1 = makeStyles(theme => ({
         backgroundRepeat: "no-repeat",
         [theme.breakpoints.down('sm')]: {  //Переключение позиционирования фона на малых экранах
             backgroundSize: "100%",
-            backgroundPosition: "right center",
+            backgroundPosition: "right bottom",
 
         },
         backgroundColor: "white", // Нужно потому, что картинка в голове не полностью закрывает фон
@@ -109,7 +116,7 @@ const useTransparent_1 = makeStyles(theme => ({
 
         backgroundPosition: "center top",
         backgroundSize: "100%",
-        backgroundRepeat: "no-repeat",
+        backgroundRepeat: "repeat-y",
         [theme.breakpoints.down('sm')]: {
             backgroundSize: "100%",
             backgroundPosition: "right bottom",
@@ -183,7 +190,8 @@ const useTransparent_1 = makeStyles(theme => ({
         // padding: theme.spacing(1),
         //  marginTop: -theme.spacing(8),
         marginBottom: -theme.spacing(8),
-        boxShadow: theme.shadows[10],
+        boxShadow: props => props.page == 0 ? theme.shadows[10]: "",
+        // boxShadow: theme.shadows[10],
         // display: "block",
         padding: "24px"
     },
@@ -282,6 +290,7 @@ export default function ElevateAppBar(props) {
      */
 
     const imageStyles = useTransparent_1(props)
+    const {page} = props
 
     return (
         <React.Fragment>
@@ -315,18 +324,28 @@ export default function ElevateAppBar(props) {
                 </Container>*/}
                 </div>
                 {/*Картинка параллакса головы с содержимым*/}
-                <Container fixed maxWidth="lg" style={{ zIndex: "12" }} className={imageStyles.parallax__layer__base}>
-                    <Paper className={imageStyles.paper}>
-                        {
-                            componentArray.map(el => {
-                                const Comp = componentMap[el]
-                                return <Comp className={imageStyles.elements} side={"L"} id={1} key={el}/>
+                {((id ) => {
+                      const [Comp0, Comp1] = id == 0 ? [Container, Paper]: [Paper, Container]
+                      return (
+                        <Comp0  fixed={id == 0? true:false} maxWidth={id == 0 ? "lg": false} className={imageStyles.parallax__layer__base}>
+                        <Comp1 fixed={id == 0? false:true} maxWidth={id == 0 ? false: "lg"}  className={imageStyles.paper}>
+                        
+                            <BreadCrumbs/>
+                            {
+                                componentArray.map(el => {
+                                    const Comp = componentMap[el]
+                                    return <Comp className={imageStyles.elements} side={"L"} id={1} key={el}/>
+                                }
+                                    
+                                )
                             }
-                                
-                            )
-                        }
-                    </Paper>
-                </Container>
+                        
+                        </Comp1>
+                    </Comp0>
+
+                      )  
+                })(page)}
+                
                 {/*Картинка подвала с содержимым
                 От параллакса пришлось отказаться. Ведет себя неадекватно
                 1. Если помещать в background и картинку, и текст, то тект оказывается

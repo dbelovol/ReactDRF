@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
@@ -6,6 +6,10 @@ import Container from "@material-ui/core/Container";
 import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
+import {makeBlockSelector} from './Utils/Selectors'
+import {useSelector} from 'react-redux'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import Beard_man from './Assets/IMG/TMK/Depositphotos_208431120_xl-2015_1.jpg'
 import Young_woman from './Assets/IMG/TMK/Depositphotos_23563515_xl-2015_1.jpg'
 import Woman from './Assets/IMG/TMK/Depositphotos_79149494_xl-2015_1.jpg'
@@ -40,11 +44,17 @@ const images = {
 
 const useStyle = makeStyles (theme => ({
     avatar: {
-        width: 200,
-        height: 200
+        width: 150,
+        height: 150
+    },
+    avatarBorder:{
+        borderRadius: "4px"
     },
     text: {
         textTransform: "uppercase"
+    },
+    color:{
+        color: theme.palette.secondary.main
     },
     border: {
         border: "solid",
@@ -53,8 +63,17 @@ const useStyle = makeStyles (theme => ({
         borderRadius: 15,
         // boxShadow: theme.shadows[2]
     },
-    paddings:{
-        paddingLeft: theme.spacing(2)
+    // paddings:{
+    //     paddingLeft: theme.spacing(2)
+    // },
+    item: {
+        padding: theme.spacing(2)
+      }, 
+    subitem: {
+        padding: theme.spacing(1)
+      },
+    header: {
+        padding: theme.spacing(5),  
     }
 
 }));
@@ -68,38 +87,60 @@ export default function IconListWithText(props) {
      * Максимальная ширина контейнера - 1200 px.
      * Заголовок центрируется по ширине
      */
-    const {className} = props
+    const {className, id} = props
+   
+    // const {className, side, id} = props
     const iconStyle = useStyle()
+    // const position = "U"
+    const avatarDataSelector= useMemo (
+      makeBlockSelector, 
+      []
+    )
+    const avatarData =  useSelector (state => 
+        avatarDataSelector(state, {id: id, type: "avatar_blocks"})
+      )
+    // console.log(iconData)
+    // avatarData.position = "S"
     return(
     
         
-            <Grid container  justify="space-around"   className={`${className} ${iconStyle.border}`}>
-            <Grid item xs={12}>
+            <Grid container  justify="space-around"   className={`${className} `}>
+            <Grid item xs={12} className={iconStyle.header}>
                 <Typography variant="h4"  align="center" className={iconStyle.text}>
-                    {images.header}
+                    {avatarData.header}
                 </Typography>
             </Grid>
-            {images.avatars.map(image => (
-                <Grid item container xs={12} md={6} className={iconStyle.paddings} lg={4}  direction="column" alignItems="center" key={image.title}>
-                    <Grid item >
-                        <Avatar src={image.avatar} className={iconStyle.avatar}/>
+            {avatarData.avatars.map(image => (
+                <Grid 
+                    item 
+                    container 
+                    xs={12} md={6} lg={4}
+                    className={iconStyle.item}   
+                    direction={avatarData.position == "S"? "row": "column"} 
+                    alignItems="center" 
+                    key={image.id}>
+                    <Grid item className={iconStyle.subitem} xs={avatarData.position == "S"? 6: false}>
+                        <Avatar src={image.photo}  className={`${iconStyle.avatar} ${!image.circle ? iconStyle.avatarBorder: ""}`}/>
                     </Grid>
-                    <Grid item >
-                        <Typography variant="body1" align="center" >
-                            {image.name}
-                        </Typography>
-                    </Grid>
-                    <Grid item >
-                        <Typography variant="body1" align="center" color="secondary">
-                            {image.title}
-                        </Typography>
-                    </Grid>
-                    <Grid item >
-                        
-                        <Typography variant="body1" align="center" >
-                            <Icon className="fa fa-quote-left" color="secondary"/>
-                            {image.speech}
-                        </Typography>
+                    <Grid item container direction="column" xs={avatarData.position == "S"? 6: false} alignItems="center">
+                        <Grid item className={iconStyle.subitem}>
+                            <Typography variant="body1" align="center" >
+                                {image.name}
+                            </Typography>
+                        </Grid>
+                        <Grid item className={iconStyle.subitem}>
+                            <Typography variant="body1" align="center" color="secondary">
+                                {image.position}
+                            </Typography>
+                        </Grid>
+                        <Grid item className={iconStyle.subitem}>
+                            
+                            <Typography variant="body1" align="center" >
+                                <FontAwesomeIcon icon={['fas', 'quote-left']} className={iconStyle.color}/>
+
+                                {image.speech}
+                            </Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
                 ))}
