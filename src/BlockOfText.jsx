@@ -36,18 +36,18 @@ const useStyle = makeStyles (theme => ({
     text: {
         textTransform: "uppercase"
     },
-    border: {
+    border: props => props.page_id != 0 ? {
         border: "solid",
         borderWidth: 1,
         borderColor: theme.palette.primary.main,
         borderRadius: 15,
         boxShadow: theme.shadows[2]
-    },
+    }: {},
     item: {
         padding: theme.spacing(2)
     }, 
     subitem: {
-        padding: theme.spacing(1)
+        padding: theme.spacing(2)
     },
     header: {
         padding: theme.spacing(5),  
@@ -61,7 +61,7 @@ export default function BlockOfText(props) {
      */
     
     const {className, id} = props
-    const iconStyle = useStyle()
+    const iconStyle = useStyle(props)
     const textDataSelector= useMemo (
       makeBlockSelector, 
       []
@@ -73,7 +73,7 @@ export default function BlockOfText(props) {
     return(
     
         
-            <Grid container  direction="column" alignItems="center" className={`${className} `}>
+            <Grid container  direction="column" alignItems="center" className={`${className} ${iconStyle.border}`}>
             <Grid item className={iconStyle.header}>
                 <Typography variant="h4" className={`${iconStyle.text}`} align="center">
                     {textData.header}

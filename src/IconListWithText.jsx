@@ -24,7 +24,17 @@ const useStyle = makeStyles ( theme=> ({
     header: {
       padding: theme.spacing(5),
       // marginRight: -theme.spacing(1) 
-    }
+    },
+    border: props => props.page_id != 0 ? {
+      border: "solid",
+      borderWidth: 1,
+      borderColor: theme.palette.primary.main,
+      borderRadius: 15,
+      boxShadow: theme.shadows[2]
+    }: {},
+    bodyToCaption: {
+      fontSize: theme.typography.caption.fontSize
+  },
 
 }));
 
@@ -36,7 +46,7 @@ export default function IconListWithText(props) {
      * Заголовок центрируется по ширин
      */
     const {className, side, id} = props
-    const iconStyle = useStyle()
+    const iconStyle = useStyle(props)
     // const position = "U"
     const iconDataSelector= useMemo (
       makeBlockSelector, 
@@ -46,48 +56,56 @@ export default function IconListWithText(props) {
         iconDataSelector(state, {id: id, type: "icon_blocks"})
       )
     console.log(iconData)
+    const align = iconData.icons.length == 1 || side =="R" ? {xs:12}: 
+                              (iconData.icons.length == 2 ? {xs:12, md:6}:{xs:12, md:6, lg:4} )
+     
     return(
     
         
-            <Grid container  alignItems="center"  direction="column" className={className}>
+            <Grid container  alignItems="center"  direction="column" className={`${className} ${iconStyle.border}`}>
             <Grid item  className={iconStyle.header }>
                 <Typography variant="h4" className={iconStyle.text} align="center">
                     {iconData.header}
                 </Typography>
             </Grid>
-            <Grid item container> 
+            <Grid item container justify="center"> 
             {iconData.icons.map(image => (
                 <Grid item key={image.id}
                   className={iconStyle.item } 
                   container 
-                  xs={12} md={6} lg={4}  
+                  {...align} 
                   direction= {iconData.position == "S"? "row": "column"} 
                   alignItems="center" 
-                  justify="flex-start"
                 >
                     {iconData.position == "S"?  
                     <>
                     <Grid item xs={4} className={iconStyle.subitem }>
-                      <Typography variant="h3" align="center" className={iconStyle.text} color="secondary">
+                      <Typography variant="h3" align="center" className={iconStyle.text} color={image.color}>
                           <FontAwesomeIcon icon={image.name.trim().split(/\s+/)}/>
                       </Typography>    
                     </Grid>
-                    <Grid item xs={8 } className={iconStyle.subitem }>
-                        <Typography variant="body1" align="center" className={iconStyle.text}>
+                    <Grid item container direction="column" alignItems="center" xs={8 } className={iconStyle.subitem }>
+                        <Typography variant="h6" align="center" >
                             {image.header}
+                        </Typography>
+                        <Typography variant="body2" align="justify" classes={{body2: iconStyle.bodyToCaption}} >
+                            {image.text}
                         </Typography>
                     </Grid>
                     </>:
                     <>
                     <Grid item className={iconStyle.subitem }>
-                      <Typography variant="h3" align="center" className={iconStyle.text} color="secondary">
+                      <Typography variant="h3" align="center" className={iconStyle.text} color={image.color}>
                         <FontAwesomeIcon icon={image.name.trim().split(/\s+/)}/>
                       </Typography>    
                     </Grid>
                     <Grid item  className={iconStyle.subitem }>
-                      <Typography variant="body1" align="center" className={iconStyle.text}>
+                      <Typography variant="h6" align="center">
                           {image.header}
                       </Typography>
+                      <Typography variant="body2" align="justify" classes={{body2: iconStyle.bodyToCaption}}>
+                            {image.text}
+                        </Typography>
                     </Grid>
                     </>
                   }

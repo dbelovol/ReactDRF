@@ -56,13 +56,13 @@ const useStyle = makeStyles (theme => ({
     color:{
         color: theme.palette.secondary.main
     },
-    border: {
+    border: props => props.page_id != 0 ? {
         border: "solid",
         borderWidth: 1,
         borderColor: theme.palette.primary.main,
         borderRadius: 15,
-        // boxShadow: theme.shadows[2]
-    },
+        boxShadow: theme.shadows[2]
+    }: {},
     // paddings:{
     //     paddingLeft: theme.spacing(2)
     // },
@@ -90,7 +90,7 @@ export default function IconListWithText(props) {
     const {className, id} = props
    
     // const {className, side, id} = props
-    const iconStyle = useStyle()
+    const iconStyle = useStyle(props)
     // const position = "U"
     const avatarDataSelector= useMemo (
       makeBlockSelector, 
@@ -101,20 +101,24 @@ export default function IconListWithText(props) {
       )
     // console.log(iconData)
     // avatarData.position = "S"
+    const align = avatarData.avatars.length == 1 ? {xs:12}: 
+                              (avatarData.avatars.length == 2 ? {xs:12, md:6}:{xs:12, md:6, lg:4} )  
     return(
     
         
-            <Grid container  justify="space-around"   className={`${className} `}>
+            <Grid container  justify="space-around"   className={`${className} ${iconStyle.border}`}>
             <Grid item xs={12} className={iconStyle.header}>
                 <Typography variant="h4"  align="center" className={iconStyle.text}>
                     {avatarData.header}
                 </Typography>
             </Grid>
-            {avatarData.avatars.map(image => (
+            {avatarData.avatars.map(image => {
+                
+                return (
                 <Grid 
                     item 
                     container 
-                    xs={12} md={6} lg={4}
+                    {...align}
                     className={iconStyle.item}   
                     direction={avatarData.position == "S"? "row": "column"} 
                     alignItems="center" 
@@ -143,7 +147,7 @@ export default function IconListWithText(props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                ))}
+                )})}
             </Grid>
         
    

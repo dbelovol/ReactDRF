@@ -60,6 +60,13 @@ const useStyles = makeStyles(theme => ({
   body1Toh6: {
       fontWeight : theme.typography.fontWeightMedium
   },
+  border: props => props.page_id != 0 ? {
+    border: "solid",
+    borderWidth: 1,
+    borderColor: theme.palette.primary.main,
+    borderRadius: 15,
+    boxShadow: theme.shadows[2]
+  }: {},
   image: {
     position: 'relative',
     height: "40vh",
@@ -150,7 +157,7 @@ export default function ButtonBases(props) {
     страницы.
     в случае вывода аватаров помимо названия страницы еще выводится текст и некая базвая цена услуги
   */
-    const {className, id} = props
+    const {className, id, side} = props
     // Создание мемоизированного селектора для извлечения информации
     // По данным блока
     const linkDataSelector= useMemo (
@@ -163,7 +170,7 @@ export default function ButtonBases(props) {
       linkDataSelector(state, {id: id, type: "link_blocks"})
     )
     //console.log("LINKDATA", linkData)
-    const classes = useStyles();
+    const classes = useStyles(props);
     //  В данных блока иформация по ссылкам на страницу представлена в виде
     //  идентификаторов страниц. Для рендеринга нужно иметь информацию по 
     //  данным страницы. Извлекаем ее из store и помещаем в данные вместо идентификаторов
@@ -184,12 +191,14 @@ export default function ButtonBases(props) {
    
     
     // linkData.mode = false
-    let position = "S"
+    // let position = "S"
+    const align = linkData.links.length == 1 || side =="R" ? {xs:12}: 
+                              (linkData.links.length == 2 ? {xs:12, md:6}:{xs:12, md:6, lg:4} )
     
 
   return (
         
-        <Grid container alignItems="center" direction="column" className={className}>
+        <Grid container alignItems="center" direction="column" className={`${className} ${classes.border}`}>
             <Grid item className={classes.header}>
                 <Typography variant="h4" align="center" style={{textTransform: "uppercase"}}>
                     {linkData.header}
@@ -238,8 +247,8 @@ export default function ButtonBases(props) {
               {linkData.links.map( item => (
                 <Grid 
                   container
-                  item xs={12} 
-                  md={6} lg={4}
+                  item 
+                  {...align}
                   key={item.id} 
                   direction ={linkData.position == "S" ? "row": "column"}
                   alignItems="center"

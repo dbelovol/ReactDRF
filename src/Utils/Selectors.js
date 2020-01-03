@@ -62,4 +62,10 @@ export const breadCrumbSelector = createSelector (
     res => res
 )
 
+const blocksForPagePrepare = (state) => [state.pages[state.currentPage].L,state.pages[state.currentPage].R]    
+
+export const blocksForPageSelector = createSelector (
+    blocksForPagePrepare,
+    res => res
+)
     

@@ -14,8 +14,8 @@ const link = new schema.Entity('links')
 const avatar = new schema.Entity('avatars')
 const icon = new schema.Entity('icons')
 const table_row =  new schema.Entity('table_rows')
-const offer = new schema.Entity('offers')
-const table = new schema.Entity('tables',
+const offer = new schema.Entity('offer')
+const table = new schema.Entity('table',
 {table_rows: [table_row]}
 )
 const icon_block = new schema.Entity('icon_blocks',

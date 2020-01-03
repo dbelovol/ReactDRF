@@ -68,10 +68,17 @@ const useStyles = makeStyles( theme=> ({
   text: {
     textTransform: "uppercase"
   },
+  border: props => props.page_id != 0 ? {
+    border: "solid",
+    borderWidth: 1,
+    borderColor: theme.palette.primary.main,
+    borderRadius: 15,
+    boxShadow: theme.shadows[2]
+}: {},
   }));
 
 export default function CustomizedTables(props) {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const {className, id} = props
     // Создание мемоизированного селектора для извлечения информации
     // По данным блока
@@ -82,11 +89,11 @@ export default function CustomizedTables(props) {
     //  Получение информации о данных блока. Используется переданный в качестве prop
     //  идентификатор блока
     const tableData =  useSelector (state => 
-      tableDataSelector(state, {id: id, type: "tables"})
+      tableDataSelector(state, {id: id, type: "table"})
     )
 
   return (
-    <div className={className} >
+    <div className={`${className} ${classes.border} ${classes.item}`} >
     <Grid container direction="column" alignItems="center" >
       <Grid item className={classes.header}>
         <Typography variant="h4" align="center" className={classes.text}>

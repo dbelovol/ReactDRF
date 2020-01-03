@@ -6,7 +6,7 @@ import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
 import {breadCrumbSelector} from './Utils/Selectors'
 
-export default function BreadCrumbs(){
+export default function BreadCrumbs(props){
     /*
     Компонент, реализующий хлебные крошки
     */
@@ -16,9 +16,10 @@ export default function BreadCrumbs(){
     // Данные возвращаются массивом двумерных массивов,
     //  Нулевой элемент - название страницы, первый - ссылка на нее
     const bcData = useSelector (breadCrumbSelector)
+    const {className} = props 
     
     return (
-    <Breadcrumbs>
+    <Breadcrumbs className={className}>
         {bcData.slice(0,-1).map( el=>
             <Link 
                 key={el[1]}

@@ -21,6 +21,8 @@ import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import useWindowSize from '@rehooks/window-size';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import {useSelector} from 'react-redux' 
+
 
 //Статические картинки параллаксов
 import picture from './Assets/IMG/TMK/FrontWoman.jpg'
@@ -38,26 +40,28 @@ import HeaderInfo from './HeaderInfo.jsx'
 import Table from './Table.jsx'
 import Offer from './Offer.jsx'
 import BreadCrumbs from './BreadCrumb.jsx'
+import {blocksForPageSelector} from './Utils/Selectors'
+import BlocksRenderer from './BlocksRenderer.jsx'
 
 
-const componentArray = [ "blockOfLinks",
-                         "iconListWithText",
-                         "avatarList",
-                         "blockOfText",
-                         "formWithHeader",
-                         "table",
-                         "offer"
-                        ]
+// const componentArray = [ "blockOfLinks",
+//                          "iconListWithText",
+//                          "avatarList",
+//                          "blockOfText",
+//                          "formWithHeader",
+//                          "table",
+//                          "offer"
+//                         ]
 
-const componentMap = {
-    "blockOfLinks": BlockOfLinks,
-    "iconListWithText": IconListWithText,
-    "avatarList": AvatarList,
-    "blockOfText": BlockOfText,
-    "formWithHeader": FormWithHeader,
-    "table": Table,
-    "offer": Offer
-}                        
+// const componentMap = {
+//     "blockOfLinks": BlockOfLinks,
+//     "iconListWithText": IconListWithText,
+//     "avatarList": AvatarList,
+//     "blockOfText": BlockOfText,
+//     "formWithHeader": FormWithHeader,
+//     "table": Table,
+//     "offer": Offer
+// }                        
 /* Хук для задания стилей картинки параллакса в голове 
  * и подвале страницы, а также набор вспомогательных
  * стилей к странице в целом 
@@ -199,7 +203,10 @@ const useTransparent_1 = makeStyles(theme => ({
 
     //---Стиль для разделения между кастомными компонентами, рендерящимися на странице--//    
     elements: {
-        marginBottom: theme.spacing(10)
+        marginBottom: theme.spacing(2)
+    },
+    blocks: {
+        padding: theme.spacing(1)
     },
     //----------------------------------------------------------------------------------//
 
@@ -291,6 +298,7 @@ export default function ElevateAppBar(props) {
 
     const imageStyles = useTransparent_1(props)
     const {page} = props
+    const blockData = useSelector(blocksForPageSelector)
 
     return (
         <React.Fragment>
@@ -326,19 +334,32 @@ export default function ElevateAppBar(props) {
                 {/*Картинка параллакса головы с содержимым*/}
                 {((id ) => {
                       const [Comp0, Comp1] = id == 0 ? [Container, Paper]: [Paper, Container]
+                      const prop0 = id == 0 ? {fixed: true, maxWidth: "lg"}: {}
+                      const prop1 = id != 0 ? {fixed: true, maxWidth: "lg"}: {}
                       return (
-                        <Comp0  fixed={id == 0? true:false} maxWidth={id == 0 ? "lg": false} className={imageStyles.parallax__layer__base}>
-                        <Comp1 fixed={id == 0? false:true} maxWidth={id == 0 ? false: "lg"}  className={imageStyles.paper}>
+                        <Comp0  {...prop0}  className={imageStyles.parallax__layer__base}>
+                        <Comp1 {...prop1}  className={imageStyles.paper}>
                         
-                            <BreadCrumbs/>
-                            {
+                            <BreadCrumbs className={imageStyles.elements}/>
+                            { blockData[1].length ? 
+                                <Grid container alignItems="flex-start" >
+                                    <Grid item xs={12} md={8} className={imageStyles.blocks}>
+                                        <BlocksRenderer className={imageStyles.elements} page_id={id} data={blockData[0]} side={"L"}/>
+                                    </Grid>
+                                    <Grid item xs={12} md={4} className={imageStyles.blocks}>
+                                        <BlocksRenderer className={imageStyles.elements} page_id={id} data={blockData[1]} side={"R"}/>
+                                    </Grid>
+                                </Grid>:
+                                <BlocksRenderer className={imageStyles.elements} page_id={id} data={blockData[0]}/>
+                            }
+                            {/* {
                                 componentArray.map(el => {
                                     const Comp = componentMap[el]
                                     return <Comp className={imageStyles.elements} side={"L"} id={1} key={el}/>
                                 }
                                     
                                 )
-                            }
+                            } */}
                         
                         </Comp1>
                     </Comp0>
