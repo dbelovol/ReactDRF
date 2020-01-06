@@ -83,6 +83,8 @@ const testSlice = createSlice ({
             //  Кроме того, инициализируем ДЛЯ КАЖДОЙ СТРАНИЦЫ isFetching
             Object.entries(state.pages).forEach(([key, value]) =>{
                 state.tree[key]={parent: value.parent}
+                // Для север рендергинга это важно!!
+                state.tree[key].current = 0
                 value.isFetching = false
                 value.isLoaded = false
             })

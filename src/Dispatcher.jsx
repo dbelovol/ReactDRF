@@ -15,8 +15,9 @@ export default function Dispatcher(props) {
     console.log ("In dispatcher")
     useDispatch()(setCurrentPage(props.location.pathname))
     const page  = useSelector (state => {console.log(`Текущая страница -  ${state.currentPage}`); return state.currentPage})
-    // console.log("ЭТА!!!   ", props.location.pathname)
-    return (<PageDrawer page={page}/>)
+    console.log("ТЕКУЩАЯ СТРАНИЦА ОДНАКО!!!", page)
+    return (page ? <PageDrawer page={page}/>:
+    <div>{(() => {console.log("ОППАНЬКИ!!"); return("Переключаемся на затребованную страницу")})()}</div>)
 }
 
 
@@ -43,10 +44,10 @@ function PageDrawer ({page}) {
     ))}
     
 export function Page404 () {
-    const status = useMediaQuery('(min-width:600px)')
+    // const status = useMediaQuery('(min-width:600px)')
     return(
     <div>
-    {`Page ${status? "Да": "Нет"} Not Found!!!`}
+    {`Page  Not Found!!!`}
     </div>
     )
 }

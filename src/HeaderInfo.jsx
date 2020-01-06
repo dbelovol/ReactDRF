@@ -160,7 +160,7 @@ export const HeaderContent = (props) => {
                         className={classes.typography} 
                         classes={{h1: classes.hxsel, h6: classes.hxsel,}}
                         variant={mode == "main"? "h1": "h6"}>
-                             {pageInfo.header}
+                             {pageInfo.header }
                     </Typography>
                     <Typography 
                         className={classes.typography}
