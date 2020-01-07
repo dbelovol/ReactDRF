@@ -1,12 +1,13 @@
 {
-  "name": "project",
+  "name": "rssinjs",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --config webpack.dev.js",
-    "start": "webpack-dev-server  --open --config webpack.dev.js"
+    "start": "webpack-dev-server  --open --config webpack.dev.js",
+    "run": "webpack -w --config webpack.server.js --mode=development & nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -23,7 +24,10 @@
     "@rehooks/window-scroll-position": "^1.0.1",
     "@rehooks/window-size": "^1.0.2",
     "css-mediaquery": "^0.1.2",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
     "jss": "^9.8.7",
+    "nodemon": "^2.0.1",
     "normalizr": "^3.4.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -53,6 +57,7 @@
     "webpack": "^4.35.2",
     "webpack-cli": "^3.3.5",
     "webpack-dev-server": "^3.7.2",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
   }
 }

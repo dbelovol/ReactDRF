@@ -65,6 +65,7 @@ const testSlice = createSlice ({
     initialState: {
         isFetching: false,
         isLoaded: false,
+        counter: 1
     },
     reducers:{
         pageHeadersRequest: (state, action) => {
@@ -153,7 +154,10 @@ const testSlice = createSlice ({
                 
                 markCurrent(action.payload,state.tree)
             }
-        }
+        },
+        setCounter: (state,action) => {
+            state.counter += action.payload
+        } 
     }});
 
 export function fetchPages() {
@@ -209,7 +213,7 @@ export function fetchPageIfNeeded(pageid) {
 }
 
 export const {setCurrentPage, setCurrentHeaders, pageDetailRequest, pageDetailResponse,
-              pageHeadersRequest, pageHeadersResponse               
+              pageHeadersRequest, pageHeadersResponse, setCounter               
 } = testSlice.actions
 
 export default testSlice.reducer

@@ -31,6 +31,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 
+import {setCounter} from './Redux/Reducers.jsx'
 
 
 // Данный прием позволяет импортировать все картинки 
@@ -89,12 +90,28 @@ const ConditionalSwitch = () => {
     )
 }
 
+const TestSelector = () => {
+    useDispatch()(setCounter(100))
+    const counter = useSelector(state => state.counter)
+    return <div>Имеем counter = {counter}</div>
+}
+
+// ReactDOM.render(
+// <ThemeProvider theme={tmk_theme}>
+//     <Provider store={store}>
+//          <Router>
+//             <TestSelector/>  
+//         </Router>
+//     </Provider>
+//  </ThemeProvider>
+// , document.getElementById("app"));
+
 ReactDOM.render(
-<ThemeProvider theme={tmk_theme}>
-    <Provider store={store}>
-         <Router>
-            <ConditionalSwitch/>  
-        </Router>
-    </Provider>
- </ThemeProvider>
-, document.getElementById("app"));
+   
+        <Provider store={store}>
+             <Router>
+                <TestSelector/>  
+            </Router>
+        </Provider>
+    
+    , document.getElementById("app"));
