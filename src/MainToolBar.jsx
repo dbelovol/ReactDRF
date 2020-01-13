@@ -1,4 +1,4 @@
-﻿import React,{useState} from 'react';
+﻿import React,{useState, useMemo} from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import {createSelector} from 'reselect'
 import MyPopper from './Popper.jsx'
 import Grid from '@material-ui/core/Grid'
+import {makeToolbarEntries} from './Utils/Selectors.jsx'
 
 
 const appBarStaticStyles = makeStyles (theme => ({
@@ -15,31 +16,38 @@ const appBarStaticStyles = makeStyles (theme => ({
         padding: theme.spacing(3)
     }
     }));
-const selectEntries = state =>
-    state.tree[0].childs.map(elem => ({
-        id: elem, 
-        onCurrentPath: elem == state.tree[0].current,
-        isCurrent: elem == state.currentPage,
-        name: state.pages[elem].header,
-        hasChilds: state.tree[elem].hasOwnProperty('childs'),
-        url: React.forwardRef((itemProps, ref) => {
-            return (
-                <RouterLink to={state.pages[elem].url} {...itemProps} innerRef={ref}/>
-            )})
-        }))
+// // const selectEntries = state =>
+// //     state.tree[0].childs.map(elem => ({
+// //         id: elem, 
+// //         onCurrentPath: elem == state.tree[0].current,
+// //         isCurrent: elem == state.currentPage,
+// //         name: state.pages[elem].header,
+// //         hasChilds: state.tree[elem].hasOwnProperty('childs'),
+// //         url: React.forwardRef((itemProps, ref) => {
+// //             return (
+// //                 <RouterLink to={state.pages[elem].url} {...itemProps} innerRef={ref}/>
+// //             )})
+// //         }))
 
-const selectToolbarEntries = createSelector (
-    selectEntries,
-    entries => entries
+// // const selectToolbarEntries = createSelector (
+// //     selectEntries,
+// //     entries => entries
 
-)
+// )
 
 
 export default function MainToolBar (props) {
 
     const { typProps, page} = props
     const classes = appBarStaticStyles()
-    const toolBarEntries = useSelector (selectToolbarEntries)
+    const textDataSelector= useMemo (
+        makeToolbarEntries, 
+        []
+      )
+      const toolBarEntries =  useSelector (state => 
+          textDataSelector(state, 0)
+        )
+    // const toolBarEntries = useSelector (selectToolbarEntries)
     const [target, setTarget]=useState({anchorEl: document.window, hovered: false})
     
     return(

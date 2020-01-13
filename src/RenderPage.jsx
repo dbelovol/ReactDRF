@@ -12,7 +12,7 @@ import ExpandMore from '@material-ui/icons/ExpandMore';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import {Link as RouterLink} from 'react-router-dom';
-import {pageHeaderPrepare} from './Utils/Selectors';
+import {pageHeaderPrepare} from './Utils/Selectors.jsx';
 import {HeaderContent} from './HeaderInfo.jsx'
  
 

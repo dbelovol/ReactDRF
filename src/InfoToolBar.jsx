@@ -1,4 +1,4 @@
-﻿import React from 'react';
+﻿import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -8,6 +8,15 @@ import Fab from "@material-ui/core/Fab";
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import useTheme from '@material-ui/styles/useTheme';
 import {Link} from 'react-router-dom' 
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Form from './Form.jsx'
+// import Snackbar from '@material-ui/core/Snackbar';
+// import MuiAlert from '@material-ui/lab/Alert';
+import MySnack from './MySnack.jsx'
 
 //Иконки
 
@@ -44,14 +53,39 @@ const appBarStaticStyles = makeStyles (theme => ({
 //----------------------------------------------------------------------------------// 
     }));
 
+// const messages = [
+//     ["success","Сообщение отправлено"],
+//     ["error" , "Сообщение не отправлено. Попробуйте позже"]
+// ]
+
+// function Alert(props) {
+//     return <MuiAlert elevation={6} variant="filled" {...props} />;
+//   }
+
 export default function InfoToolBar (props) {
 
     const classes = appBarStaticStyles()
     const { typProps} = props
     const qur_theme = useTheme();
-    const down_md = useMediaQuery (qur_theme.breakpoints.down('md')) 
+    const down_md = useMediaQuery (qur_theme.breakpoints.down('md'))
+    const [open,setOpen] = useState(false)
+    const [openSnack,setOpenSnack] = useState(false)
+    const [message, setMessage] = useState(0)
 
+    const handleOpen = () => {
+        setOpen (true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    // const handleSnackClose = () =>{
+    //     setOpenSnack(false)
+
+    // }
     return (
+    <>
     <Toolbar disableGutters >
     {/*ToolBar children приходится делать кнопками. Иначе проблема с центрированием*/}
 
@@ -72,10 +106,37 @@ export default function InfoToolBar (props) {
                 <Typography variant={down_md ? "caption": "h6"}  {...typProps} >info@example.com</Typography>
             </Button>
         </Box>
-        <Fab color="secondary"  variant="extended" className={classes.button}>
+        <Fab color="secondary"  variant="extended" className={classes.button} onClick={handleOpen}>
             <Typography variant={down_md ? "body2": "h6"}  >Стать&nbsp;клиентом</Typography>
         </Fab>
+        <Dialog 
+            open={open} 
+            onClose={handleClose} 
+            aria-labelledby="form-dialog-title"
+            fullWidth={true}
+            maxWidth="sm"
+        >
+            <DialogTitle id="form-dialog-title">Пожалуйста, заполните и отправьте форму</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Мы свяжемся с вами в ближайшее время
+                    </DialogContentText>
+                    <Form mode onSend={handleClose} onOpen={setOpenSnack} onMessage={setMessage}/>
+                </DialogContent>
+            <DialogActions>
+                <Button onClick={handleClose} color="primary" > 
+                    Отменить
+                </Button>
+            </DialogActions>
+        </Dialog>
     </Toolbar>
+    <MySnack open={openSnack} message={message} setOpenSnack={setOpenSnack} />
+    {/* <Snackbar open={openSnack} autoHideDuration={3000} onClose={handleSnackClose}>
+        <Alert onClose={handleSnackClose} severity={messages[message][0]}>
+            {messages[message][1]}
+        </Alert>
+    </Snackbar> */}
+    </>
     )
 
 }

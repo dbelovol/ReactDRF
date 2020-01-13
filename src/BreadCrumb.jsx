@@ -4,7 +4,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Typography from '@material-ui/core/Typography';
-import {breadCrumbSelector} from './Utils/Selectors'
+import {breadCrumbSelector} from './Utils/Selectors.jsx'
 
 export default function BreadCrumbs(props){
     /*

@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import {useSelector} from 'react-redux'
 //import {createSelector} from 'reselect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {pageHeaderSelector} from './Utils/Selectors'
+import {pageHeaderSelector} from './Utils/Selectors.jsx'
 
 const headerClasses = makeStyles(theme => ({
 

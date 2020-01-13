@@ -6,7 +6,7 @@ import Container from "@material-ui/core/Container";
 import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
-import {makeBlockSelector} from './Utils/Selectors'
+import {makeBlockSelector} from './Utils/Selectors.jsx'
 import {useSelector} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 

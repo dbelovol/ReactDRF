@@ -40,8 +40,9 @@ import HeaderInfo from './HeaderInfo.jsx'
 import Table from './Table.jsx'
 import Offer from './Offer.jsx'
 import BreadCrumbs from './BreadCrumb.jsx'
-import {blocksForPageSelector} from './Utils/Selectors'
+import {blocksForPageSelector} from './Utils/Selectors.jsx'
 import BlocksRenderer from './BlocksRenderer.jsx'
+
 
 
 // const componentArray = [ "blockOfLinks",
@@ -286,6 +287,7 @@ export default function ElevateAppBar(props) {
     }, []);
 
 
+
     /* Общие вещи по рендерингу.
      * Все содержимое, ЗА ИСКЛЮЧЕНИЕМ 
      * - Полоски AppBar
@@ -352,6 +354,7 @@ export default function ElevateAppBar(props) {
                                 </Grid>:
                                 <BlocksRenderer className={imageStyles.elements} page_id={id} data={blockData[0]}/>
                             }
+                            <FormWithHeader className={imageStyles.elements} page_id={id} />
                             {/* {
                                 componentArray.map(el => {
                                     const Comp = componentMap[el]

@@ -1,5 +1,8 @@
-﻿import {createSelector} from 'reselect'
+﻿import React from 'react'
+import {Link as RouterLink} from 'react-router-dom';
+import {createSelector} from 'reselect'
 import {blockMap} from '../Mappings/ComponentMap.jsx'
+
 
 // Функция, извлекающая и нормализующая инофрмацию о заголовке страницы из store
 export const pageHeaderPrepare = (state, id=-1) => {
@@ -69,3 +72,26 @@ export const blocksForPageSelector = createSelector (
     res => res
 )
     
+const selectEntries = (state, id) => {
+    if (state.tree[id].childs) {
+    return (    
+    state.tree[id].childs.map(elem => ({
+        id: elem, 
+        onCurrentPath: elem == state.tree[id].current,
+        isCurrent: elem == state.currentPage,
+        name: state.pages[elem].header,
+        hasChilds: state.tree[elem].hasOwnProperty('childs'),
+        url: React.forwardRef((itemProps, ref) => {
+            return (
+                <RouterLink to={state.pages[elem].url} {...itemProps} innerRef={ref}/>
+            )})
+        })))
+    }else {return ([])}
+}
+
+export const makeToolbarEntries = () =>{
+    return createSelector (
+    selectEntries,
+    entries => entries
+)
+    }

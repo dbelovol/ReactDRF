@@ -3,7 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { makeStyles } from '@material-ui/core/styles';
-import {makeBlockSelector} from './Utils/Selectors'
+import {makeBlockSelector} from './Utils/Selectors.jsx'
 import {useSelector} from 'react-redux'
 
 

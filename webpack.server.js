@@ -4,12 +4,15 @@ var nodeExternals = require('webpack-node-externals')
 
 var serverConfig = {
     mode: 'development',
-    entry: './src/server/index.js',
+    entry: {
+      // polyfill: 'babel-polyfill',
+      index: './src/server/index.js'
+    },
     target: 'node',
     externals: [nodeExternals()],
     output: {
-      path: __dirname,
-      filename: 'server.js',
+      path: __dirname +"/dist",
+      filename: '[name].js',
       publicPath: '/'
     },
     module: {

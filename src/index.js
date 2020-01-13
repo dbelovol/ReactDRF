@@ -7,7 +7,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux'
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles';
 import {fetchPagesIfNeeded} from './Redux/Reducers.jsx'
-import mediaQuery from 'css-mediaquery';
+// import mediaQuery from 'css-mediaquery';
 
 //import Parallax from "./Parallax";
 //import Button from "./Buttons.jsx";
@@ -96,22 +96,22 @@ const TestSelector = () => {
     return <div>Имеем counter = {counter}</div>
 }
 
-// ReactDOM.render(
-// <ThemeProvider theme={tmk_theme}>
-//     <Provider store={store}>
-//          <Router>
-//             <TestSelector/>  
-//         </Router>
-//     </Provider>
-//  </ThemeProvider>
-// , document.getElementById("app"));
-
 ReactDOM.render(
+<ThemeProvider theme={tmk_theme}>
+    <Provider store={store}>
+         <Router>
+            <ConditionalSwitch/>  
+        </Router>
+    </Provider>
+ </ThemeProvider>
+, document.getElementById("app"));
+
+// ReactDOM.render(
    
-        <Provider store={store}>
-             <Router>
-                <TestSelector/>  
-            </Router>
-        </Provider>
+//         <Provider store={store}>
+//              <Router>
+//                 <TestSelector/>  
+//             </Router>
+//         </Provider>
     
-    , document.getElementById("app"));
+//     , document.getElementById("app"));
