@@ -1,6 +1,6 @@
 ﻿import React from 'react'
 import { normalize, schema } from 'normalizr';
-import {pageSchema, pagesSchema} from './Schema/schema.jsx'
+import {pageSchema, pagesSchema} from '../Schema/schema.jsx'
 
 export default function Normalize(){
 

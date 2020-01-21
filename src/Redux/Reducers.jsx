@@ -3,7 +3,7 @@ import {createSlice} from'redux-starter-kit'
 import { slugify as address} from 'transliteration';
 import urlJoin from 'url-join';
 import { normalize} from 'normalizr';
-import {pageSchema, pagesSchema} from '../Schema/schema.jsx'
+import {pageSchema, pagesSchema, globaldataSchema} from '../Schema/schema.jsx'
 // import {initialState} from './InitialState.jsx'
 
 
@@ -109,6 +109,7 @@ const testSlice = createSlice ({
             Object.assign(state.pages[id], action.payload.result)
             // То же самое, НО state[key] МОЖЕТ НЕ БЫТЬ. ПОэтому проверяем
             // и если нет - то просто присваиваем 
+            console.log(action.payload.result)
             for (let [key,value] of Object.entries(action.payload.entities)) {
                 if (state[key]) {
                     Object.assign(state[key], value)
@@ -119,7 +120,7 @@ const testSlice = createSlice ({
             } 
             let sides = {L :[], R: []}
             Object.entries(state.pages[id]).forEach(([key,value]) => {
-                if (Array.isArray(value) && value.length && key!= "features"){
+                if (Array.isArray(value) && value.length && key!= "features" && key!= "page_tags"){
                     value.forEach( item => {
                         // let side = item.side
                          sides[item.side].push([key, item.block, item.order])
@@ -164,12 +165,12 @@ export function fetchPages() {
     return function(dispatch) {
         // взводим загрузку информации по страницам
         dispatch(pageHeadersRequest())
-        return (fetch('http://localhost:8000/page/')
+        return (fetch('http://localhost:8000/pagetotal/')
         .then(
             response=>{console.log(response); return response.json()},
             error => {console.log('Что-то пошло не так c заголовками', error); return Promise.reject("Эта")})
         .then(
-            json => {console.log ("мы здесь", normalize(json, pagesSchema)); dispatch(pageHeadersResponse(normalize(json, pagesSchema)))},
+            json => {console.log ("мы здесь", normalize(json, globaldataSchema)); dispatch(pageHeadersResponse(normalize(json, globaldataSchema)))},
             error => console.log(error)
         ))
     }

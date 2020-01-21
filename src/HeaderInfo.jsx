@@ -38,8 +38,10 @@ const headerClasses = makeStyles(theme => ({
         // Этим объясняется вставка в шапке документа
         // Почему это работает и нало делать именно так - не вполне понимаю. 
         "&:before": {
-            background: theme.palette.primary.dark, // цвет фильтра
-            opacity: props => props.page == 0 ? "0.3" : "0.9"                          // прозрачность
+            background: props => props.page == 0 ? 
+            theme.palette.common.white :
+            theme.palette.primary.main, // цвет фильтра
+            opacity: props => props.page == 0 ? "0.1" : "0.9"                          // прозрачность
         },
         "&:after,&:before": {
             position: "absolute",
@@ -86,18 +88,6 @@ const headerClasses = makeStyles(theme => ({
     }
 }));
 
-// Функция, извлекающая и нормализующая инофрмацию о заголовке страницы из store
-// const pageHeaderPrepare = (state) => {
-//     let res = Object.assign({}, state.pages[state.currentPage])
-//     res = Object.assign(res, {features: res.features.map(item => state.features[item])})
-//     return res
-// }
-
-// // Создание запоминающего селектора. 
-// const pageHeaderSelector = createSelector (
-//     pageHeaderPrepare,
-//     res => res
-// )
 
 
 

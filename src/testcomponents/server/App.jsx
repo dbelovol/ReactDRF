@@ -2,8 +2,11 @@
 import {StaticRouter as Router} from 'react-router-dom'
 import { configureStore, getDefaultMiddleware } from 'redux-starter-kit'
 import { Provider, useSelector, useDispatch } from 'react-redux'
-import rootReducer from '../Redux/Reducers.jsx'
-import {setCounter} from '../Redux/Reducers.jsx'
+import rootReducer from '../../Redux/Reducers.jsx'
+import {setCounter} from '../../Redux/Reducers.jsx'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import {useWindowSize} from '../../Utils/useWindowSize';
+import {a} from './testReq'
 ///
 ///
 ///
@@ -25,6 +28,9 @@ export default  ({store}) => {
 // })
 
 const TestSelector = () => {
+    a["q"] = 44
+    const boolean = useScrollTrigger()
+    const width = useWindowSize ()
     useDispatch()(setCounter(100))
     const counter = useSelector(state => state.counter)
     const pageHeader = useSelector(state => state.pages[state.currentPage].header)
@@ -32,7 +38,9 @@ const TestSelector = () => {
     return <><div>Имеем counter = {counter}</div>
             <div>Имеем header = {pageHeader}</div>
             <div>Имеем iconBlock = {iconBlock}</div>
+            <div>Имеем boolean = {boolean == ""? "Ok": "Bad"}</div>
             </>
 }
+
 
 

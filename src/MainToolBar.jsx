@@ -4,8 +4,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import {useSelector} from 'react-redux'
-import {Link as RouterLink} from 'react-router-dom';
-import {createSelector} from 'reselect'
 import MyPopper from './Popper.jsx'
 import Grid from '@material-ui/core/Grid'
 import {makeToolbarEntries} from './Utils/Selectors.jsx'
@@ -16,30 +14,17 @@ const appBarStaticStyles = makeStyles (theme => ({
         padding: theme.spacing(3)
     }
     }));
-// // const selectEntries = state =>
-// //     state.tree[0].childs.map(elem => ({
-// //         id: elem, 
-// //         onCurrentPath: elem == state.tree[0].current,
-// //         isCurrent: elem == state.currentPage,
-// //         name: state.pages[elem].header,
-// //         hasChilds: state.tree[elem].hasOwnProperty('childs'),
-// //         url: React.forwardRef((itemProps, ref) => {
-// //             return (
-// //                 <RouterLink to={state.pages[elem].url} {...itemProps} innerRef={ref}/>
-// //             )})
-// //         }))
-
-// // const selectToolbarEntries = createSelector (
-// //     selectEntries,
-// //     entries => entries
-
-// )
 
 
 export default function MainToolBar (props) {
 
+    // Компонент, рендерящий всплывающий ToolBar
     const { typProps, page} = props
     const classes = appBarStaticStyles()
+
+    // Вызов factory, возвращающей селектор для выбора данных для вывода
+    // выводятся ссылки на страницы первого уровня - дочерние стартовой
+
     const textDataSelector= useMemo (
         makeToolbarEntries, 
         []
@@ -48,7 +33,7 @@ export default function MainToolBar (props) {
           textDataSelector(state, 0)
         )
     // const toolBarEntries = useSelector (selectToolbarEntries)
-    const [target, setTarget]=useState({anchorEl: document.window, hovered: false})
+    const [target, setTarget]=useState({anchorEl: __isBrowser__ ? document.window : "", hovered: false})
     
     return(
         <>
@@ -56,7 +41,7 @@ export default function MainToolBar (props) {
             open={target.hovered}  
             key={page} anchorEl={target.anchorEl} 
             transition 
-            mouseOver={(e) => setTarget(prevState => ({hovered: true, anchorEl: prevState.anchorEl}))}
+            mouseOver={() => setTarget(prevState => ({hovered: true, anchorEl: prevState.anchorEl}))}
             mouseOut={() => setTarget(prevState => ({hovered: false, anchorEl: prevState.anchorEl}))}
         />
         <Grid container alignItems="center" direction="column">

@@ -21,7 +21,7 @@ import {HeaderContent} from './HeaderInfo.jsx'
 const useStyles = makeStyles(theme => ({
     root: {
       width: '100%',
-      backgroundColor:  theme.palette.primary.light,
+      backgroundColor:  theme.palette.grey[200],
     },
     nested: {
       paddingLeft: theme.spacing(4),

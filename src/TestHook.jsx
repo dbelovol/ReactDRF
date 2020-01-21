@@ -11,110 +11,36 @@
 */
 
 import React, { useEffect, useState } from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import useTheme from '@material-ui/styles/useTheme';
 import Container from "@material-ui/core/Container";
 import { makeStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import useWindowSize from '@rehooks/window-size';
+import {useWindowSize} from './Utils/useWindowSize';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import {useSelector} from 'react-redux' 
 
 
 //Статические картинки параллаксов
-import picture from './Assets/IMG/TMK/FrontWoman.jpg'
 import FooterImage from './Assets/IMG/TMK/Footer13.jpg'
 
 //Мои компоненты
-import BlockOfLinks from './Butt_base.jsx'
-import IconListWithText from './IconListWithText.jsx'
-import AvatarList from './AvatarList.jsx'
-import BlockOfText from './BlockOfText.jsx'
 import FormWithHeader from './FormWithHeader.jsx'
 import FooterContent from './FooterContent.jsx'
 import MainAppBar from './MainAppBar.jsx'
 import HeaderInfo from './HeaderInfo.jsx'
-import Table from './Table.jsx'
-import Offer from './Offer.jsx'
 import BreadCrumbs from './BreadCrumb.jsx'
 import {blocksForPageSelector} from './Utils/Selectors.jsx'
 import BlocksRenderer from './BlocksRenderer.jsx'
 
-
-
-// const componentArray = [ "blockOfLinks",
-//                          "iconListWithText",
-//                          "avatarList",
-//                          "blockOfText",
-//                          "formWithHeader",
-//                          "table",
-//                          "offer"
-//                         ]
-
-// const componentMap = {
-//     "blockOfLinks": BlockOfLinks,
-//     "iconListWithText": IconListWithText,
-//     "avatarList": AvatarList,
-//     "blockOfText": BlockOfText,
-//     "formWithHeader": FormWithHeader,
-//     "table": Table,
-//     "offer": Offer
-// }                        
-/* Хук для задания стилей картинки параллакса в голове 
- * и подвале страницы, а также набор вспомогательных
+                    
+/* Хук для задания стилей картинки параллакса в подвале страницы, а также набор вспомогательных
  * стилей к странице в целом 
  */
 
 const useTransparent_1 = makeStyles(theme => ({
 
-    //------------------------Стили для параллакса в голове-----------------------//
-    img: {
-        height: "90vh",
-        maxHeight: "1000px",
-        overflow: "hidden",
-        // position: "relative", //Необходимо, чтобы корректно наложить фильтр (там position - absolute) 
-        backgroundPosition: "right top",
-        backgroundSize: "70%",
-        backgroundRepeat: "no-repeat",
-        [theme.breakpoints.down('sm')]: {  //Переключение позиционирования фона на малых экранах
-            backgroundSize: "100%",
-            backgroundPosition: "right bottom",
-
-        },
-        backgroundColor: "white", // Нужно потому, что картинка в голове не полностью закрывает фон
-        margin: "0",              // Если не задать - то видна вертикальная полоса справа от телки
-        padding: "0",
-        border: "0",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-    },
-    filter: { // Это спижжено отсюда  
-        // https://github.com/creativetimofficial/material-kit-react/blob/master/src/assets/jss/material-kit-react/components/parallaxStyle.jsx 
-        // Этим объясняется вставка в шапке документа
-        // Почему это работает и нало делать именно так - не вполне понимаю. 
-        "&:before": {
-            background: theme.palette.primary.dark, // цвет фильтра
-            opacity: props => props.page == 0 ? "0.3" : "0.8"                          // прозрачность
-        },
-        "&:after,&:before": {
-            position: "absolute",
-            zIndex: "1",
-            width: "100%",
-            height: "100%",
-            display: "block",
-            left: "0",
-            top: "0",
-            content: "''"
-        }
-        //----------------------------------------------------------------------------------//
-
-        //----------------------------Стили для параллакса в подвале------------------------//
-    },
+    //----------------------------Стили для параллакса в подвале------------------------//
     imgBott: {
         minHeight: "90vh",
         overflow: "hidden",
@@ -127,8 +53,6 @@ const useTransparent_1 = makeStyles(theme => ({
             backgroundPosition: "right bottom",
 
         },
-
-        //   marginТор: theme.spacing(40),
         margin: "0",
         padding: "0",
         border: "0",
@@ -140,7 +64,7 @@ const useTransparent_1 = makeStyles(theme => ({
     filterBott: {    // фильтр практически такой же, так что меняется только прозрачность. Надо было поконтрастнее
         "&:before": {
             opacity: "0.7",
-            background: theme.palette.primary.light
+            background: theme.palette.grey[400]
         },
         "&:after,&:before": {
             position: "absolute",
@@ -155,36 +79,9 @@ const useTransparent_1 = makeStyles(theme => ({
     },
     //----------------------------------------------------------------------------------//    
 
-    //----------------------------Стили для Надписей в AppBar---------------------------//        
-    typografy: {
-        opacity: "1.0",
-        color: "black",
-        padding: theme.spacing(2),
-        textTransform: "lowercase",
-        [theme.breakpoints.down('md')]: {
-            padding: theme.spacing(1),
-        },
-    },
-    //----------------------------------------------------------------------------------//                                                    
-
-    //-----------------------Стиль для сдвигания кнопки AppBar вправо на малых экранах--//
-
-    mail: { // 
-        [theme.breakpoints.up('xs')]: {
-            flexGrow: 1
-        },
-    },
-    //----------------------------------------------------------------------------------//    
-
     //----------Стиль для помещения содержимого подвала над фильтром картинки подвала--//
     message: {
         paddingTop: theme.spacing(8),
-    },
-    //----------------------------------------------------------------------------------//    
-
-    //---Стиль для переопределения стиля кнопок в заголовке. Там по умолчанию Uppercase-//
-    button: {
-        textTransform: "none",
     },
     //----------------------------------------------------------------------------------//    
 
@@ -260,31 +157,33 @@ const useTransparent_1 = makeStyles(theme => ({
         color: theme.palette.grey[800],
         transition: "all 1s",
     },
-    h2sel:{
-        fontWeight : theme.typography.fontWeightMedium
-    }
 }));
 
 export default function ElevateAppBar(props) {
 
-    /* Компонент, рендерящий корневую страницу сайта
+    /* Компонент, рендерящий страницу сайта
      */
-    const elem = document.getElementById("main_page_parallax")
+    
+    const [elem, setElem] = useState(__isBrowser__ ? window : "")
+    // Кастомный хук, пригодный для использования в режиме SSR
+    // На сервере вернет undefined
     const windowDims = useWindowSize()
+    // Данный хук на сервере вернет "", что эквивалентно false, что и надо
     const pictureTrigger = useScrollTrigger({
         disableHysteresis: true,
-        target: elem ? elem : window,
-        threshold: windowDims.innerHeight*1.5,
-    });
-    const qur_theme = useTheme();
-    const down_md = useMediaQuery(qur_theme.breakpoints.down('md'))
-    const ownProps = {}
-
-    const [interval, onInterval] = useState(true)
+        target: elem ,
+        threshold: windowDims.height*1.5,
+    }) 
+    
+    // При первом рендеринге элемента main_page_parallax в DOM нет
+    // Поэтому после рендернига мы выполняем ОДНАЖДЫ этот хук
+    // Цель - прикрепить useScrollTrigger к содержимому main_page_parallax
+    //  а не к window
     useEffect(() => {
-        onInterval(false)
-
-    }, []);
+        if (__isBrowser__) {
+            setElem(document.getElementById("main_page_parallax"))
+            console.log("!!!!!!УСТАНАВЛИВАЕМ ССЫЛКУ НА ЭЛЕМЕНТ!!!!!")
+    }}, []);
 
 
 
@@ -305,7 +204,7 @@ export default function ElevateAppBar(props) {
     return (
         <React.Fragment>
             <CssBaseline />
-            <MainAppBar position="fixed" primary page={props.page} />
+            <MainAppBar position="fixed" page={props.page} />
             {/*Полоска AppBar
                 * В данном компоненте параллакс реализован не с помощью EventListener,
                 * а при помощи чистого css. Смысл в том, что на странице организуется
@@ -317,23 +216,7 @@ export default function ElevateAppBar(props) {
             <div className={imageStyles.parallax} id="main_page_parallax">
                 <div className={imageStyles.parallax__layer_top}>
                     <HeaderInfo page={props.page} pictureTrigger={pictureTrigger}/>
-                    {/*Картинка параллакса головы с содержимым
-                    { !pictureTrigger ?
-                        <div
-                            className={`${imageStyles.img} ${imageStyles.parallax__layer__back} ${imageStyles.filter} ${imageStyles.parallax__layer__bott}`}
-                            style={{ backgroundImage: "url(" + picture + ")" }}
-                        /> : ""
-                    }
-                    <Container className={` ${imageStyles.parallax__layer__base} `} maxWidth="lg" fixed>
-                        <Grid container justify="flex-start" alignItems="center" style={{ height: "90vh" }}>
-                            <Grid item xs={12}>
-                                <Typography classes={props.page !=0 ? {h2: imageStyles.h2sel} : {}} variant="h2"> ТМК ПЛЮС</Typography>
-                                <Typography variant="h6"> Освобождаем от рутины</Typography>
-                            </Grid>
-                        </Grid>
-                </Container>*/}
                 </div>
-                {/*Картинка параллакса головы с содержимым*/}
                 {((id ) => {
                       const [Comp0, Comp1] = id == 0 ? [Container, Paper]: [Paper, Container]
                       const prop0 = id == 0 ? {fixed: true, maxWidth: "lg"}: {}
@@ -355,15 +238,6 @@ export default function ElevateAppBar(props) {
                                 <BlocksRenderer className={imageStyles.elements} page_id={id} data={blockData[0]}/>
                             }
                             <FormWithHeader className={imageStyles.elements} page_id={id} />
-                            {/* {
-                                componentArray.map(el => {
-                                    const Comp = componentMap[el]
-                                    return <Comp className={imageStyles.elements} side={"L"} id={1} key={el}/>
-                                }
-                                    
-                                )
-                            } */}
-                        
                         </Comp1>
                     </Comp0>
 

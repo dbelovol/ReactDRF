@@ -89,16 +89,18 @@ function useScrollTransform (trigger, page) {
 }
    
 export default function MainAppBar(props) {
+    // Компонент, рендерящий ToolBar
     //Хук, переключающий цвет фона и шрифта заголовка в процессе scrolla компонента
-    const elem = document.getElementById("main_page_parallax")
+    // const elem = document.getElementById("main_page_parallax")
+    const [elem, setElem] = useState(__isBrowser__ ? window : "")
     const trigger = useScrollTrigger({
                         disableHysteresis: true,
-                        target: elem ? elem: window,
+                        target: elem ,
                         threshold: 80,
                         });
     
-    const {appProps, typProps, typPropsBott} = useScrollTransform(trigger, props.page)
-    
+    const {appProps, typProps} = useScrollTransform(trigger, props.page)
+    console.log("!!!ЭЛЕМЕНТ!!!!", elem)
    
     /*
      * Это надо, чтобы передернуть хук useScrollTransform выше.
@@ -109,18 +111,14 @@ export default function MainAppBar(props) {
      * но в этот раз элемент id="main_page_parallax" уже есть в DOM, так что 
      * EventListener вышеупомянутого хука добавляется корректно
      */ 
-    const [interval, onInterval] = useState(true)
     useEffect(() => {
-        onInterval (false)
-       
-    },[]);
+        if (__isBrowser__) {
+            setElem(document.getElementById("main_page_parallax"))
+    }}, []);
     
 
     return (
     /*Полоска AppBar*/
-         
-        props.primary ?
-        <>
         <AppBar {...appProps} position={props.position}>
         <Container fixed maxWidth="lg" >
             {
@@ -130,8 +128,5 @@ export default function MainAppBar(props) {
             }
         </Container>
         </AppBar>
-        </>
-        :
-        <></>
         )
 }

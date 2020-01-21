@@ -7,34 +7,11 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
-import Container from "@material-ui/core/Container";
+// import Container from "@material-ui/core/Container";
 import Icon from '@material-ui/core/Icon';
 import {makeBlockSelector} from './Utils/Selectors.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-
-//import Team from './Assets/IMG/TMK/Depositphotos_33035993_xl-2015.jpg'
-//import Accounter from './Assets/IMG/TMK/Depositphotos_11632587_xl-2015.jpg'
-//import Lawyers from './Assets/IMG/TMK/Depositphotos_222670292_xl-2015.jpg'
-
-//const images = [
-//   {
-//     url: Team,
-//     title: 'Кадровый аутсорсинг',
-//     width: "100%"
-//    
-//   },
-//   {
-//     url: Accounter,
-//     title: 'Аутсорсинг бухгалтерских услуг',
-//     width: "100%"
-//   },
-//   {
-//     url: Lawyers,
-//     title: 'Регистрация и ликвидация компаний',
-//     width: "100%"
-//   },
-// ];
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -77,10 +54,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover, &$focusVisible': {
       zIndex: 1,
       '& $imageBackdrop': {
-        opacity: 0.15,
+        opacity: 0.5,
       },
       '& $imageMarked': {
-        opacity: 0,
+        opacity: 0.9,
       },
       '& $imageTitle': {
         border: '4px solid currentColor',
@@ -98,7 +75,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    color: theme.palette.common.white,
+    color: theme.palette.secondary.main,
   },
   imageCalc: {
     position: 'absolute',
@@ -109,7 +86,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'flex-end',
-    color: theme.palette.common.white,
+    // color: theme.palette.common.white,
     padding: theme.spacing(2),
     fontSize: theme.typography.h1.fontSize
   },
@@ -128,8 +105,8 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     top: 0,
     bottom: 0,
-    backgroundColor: theme.palette.primary.dark,
-    opacity: 0.5,
+    backgroundColor: theme.palette.primary.main,
+    opacity: 0,
     transition: theme.transitions.create('opacity'),
   },
   imageTitle: {
@@ -139,7 +116,7 @@ const useStyles = makeStyles(theme => ({
   imageMarked: {
     height: 3,
     width: 18,
-    backgroundColor: theme.palette.common.white,
+    backgroundColor: theme.palette.primary.main,
     position: 'absolute',
     bottom: -2,
     left: 'calc(50% - 9px)',
@@ -236,7 +213,7 @@ export default function ButtonBases(props) {
                             className={classes.imageTitle}
                             >
                                 {image.title}
-                                <span className={classes.imageMarked} />
+                                {/* <span className={classes.imageMarked} /> */}
                             </Typography>
                         </span>
                     </ButtonBase>

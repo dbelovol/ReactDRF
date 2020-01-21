@@ -42,12 +42,12 @@ import FooterImage from './Assets/IMG/TMK/Footer13.jpg'
 
 
 //Мои компоненты
-import Button_base from './Butt_base.jsx'
-import IconListWithText from'./IconListWithText.jsx'
-import AvatarList from'./AvatarList.jsx'
-import BlockOfText from'./BlockOfText.jsx'
-import FormWithHeader from'./FormWithHeader.jsx'
-import FooterContent from'./FooterContent.jsx'
+import Button_base from '../Butt_base.jsx'
+import IconListWithText from'../IconListWithText.jsx'
+import AvatarList from'../AvatarList.jsx'
+import BlockOfText from'../BlockOfText.jsx'
+import FormWithHeader from'../FormWithHeader.jsx'
+import FooterContent from'../FooterContent.jsx'
 
 
 /* Стили для AppBar. Идея в том, чтобы при листании в момент, когда пролистали

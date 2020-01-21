@@ -1,46 +1,16 @@
 import React, {useMemo} from 'react';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+// import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Container from "@material-ui/core/Container";
-import Icon from '@material-ui/core/Icon';
+// import Container from "@material-ui/core/Container";
+// import Icon from '@material-ui/core/Icon';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import {makeBlockSelector} from './Utils/Selectors.jsx'
 import {useSelector} from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import Beard_man from './Assets/IMG/TMK/Depositphotos_208431120_xl-2015_1.jpg'
-import Young_woman from './Assets/IMG/TMK/Depositphotos_23563515_xl-2015_1.jpg'
-import Woman from './Assets/IMG/TMK/Depositphotos_79149494_xl-2015_1.jpg'
 
-
-const images = {
-    header: "Клиенты о нас",
-    avatars:[
-    {
-    avatar: Beard_man,
-    name: 'Петр Житников',
-    title: 'Директор ООО "ЗагородСтрой"',
-    speech: 'Быстро. Качественно. Бюджетно. Редко такое встретишь в наше время'
-    
-   
-  },
-  {
-    avatar: Young_woman,
-    name: 'Оксана Костина',
-    title: 'Индивидуальный предприниматель',
-    speech: 'Очень ответственные, отзывчивые сотрудники, подходят к работе с душой'
-  },
-  {
-    avatar: Woman,
-    name: 'Надежда Тополь',
-    title: 'Директор ООО "Домашняя Выпечка"',
-    speech: 'Удивительное сочетание профессионализма и отсутствия формализма  в работе'
-
-  },
-  ]
-};
 
 const useStyle = makeStyles (theme => ({
     avatar: {

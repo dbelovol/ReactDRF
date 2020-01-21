@@ -1,11 +1,31 @@
 import React from 'react';
-import useMediaQuery from '@material-ui/core/useMediaQuery';
+// import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useSelector, useDispatch} from 'react-redux'
-import {Redirect} from 'react-router-dom'
+import {Redirect, Route, Switch} from 'react-router-dom'
 import {setCurrentPage, fetchPageIfNeeded, fetchPagesIfNeeded} from './Redux/Reducers.jsx'
 import TestHook from './TestHook.jsx'
 
-export default function Dispatcher(props) {
+export default function ConditionalSwitch () {
+    const isLoaded = useSelector( state=> state.isLoaded)
+    const isFetching = useSelector( state=> state.isFetching)
+    console.log("IN MAIN")
+    useDispatch()(fetchPagesIfNeeded())
+    return (
+        <>
+            {isFetching && <div>Loading pages structure</div> }
+            {isLoaded &&
+            <Switch>
+                <Route path="/404" component={Page404}/>
+                <Route component={Dispatcher}/>
+            </Switch>   
+            }
+        </>
+    )
+}
+
+
+
+function Dispatcher(props) {
     // Данная функция устанавливает текущую страницу
     // Имя страницы содержится в параметре props.location.pathname
     // Данный параметр передается React Routerом 

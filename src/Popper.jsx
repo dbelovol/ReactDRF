@@ -29,7 +29,7 @@ const popperStyles = makeStyles (theme=> ({
             height: 0, 
             borderLeft: '1em solid transparent',
             borderRight: '1em solid transparent',
-            borderBottom: `1em solid ${theme.palette.primary.light}`,
+            borderBottom: `1em solid ${theme.palette.grey[200]}`,
             
             marginTop: "-0.9em",
     
