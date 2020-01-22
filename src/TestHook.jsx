@@ -22,7 +22,7 @@ import {useSelector} from 'react-redux'
 
 
 //Статические картинки параллаксов
-import FooterImage from './Assets/IMG/TMK/Footer13.jpg'
+// import FooterImage from './Assets/IMG/TMK/Footer13.jpg'
 
 //Мои компоненты
 import FormWithHeader from './FormWithHeader.jsx'
@@ -200,7 +200,8 @@ export default function ElevateAppBar(props) {
     const imageStyles = useTransparent_1(props)
     const {page} = props
     const blockData = useSelector(blocksForPageSelector)
-
+    const footerImageUrl = useSelector(state => Object.entries(state.glob_picts).find(([key,pict])=> pict.picture_name == 'footerpict')[1].picture)
+    console.log("IMAGE URL",footerImageUrl)
     return (
         <React.Fragment>
             <CssBaseline />
@@ -258,7 +259,7 @@ export default function ElevateAppBar(props) {
                 <div className={imageStyles.parallax__layer}>
                     <div
                         className={`${imageStyles.imgBott} ${imageStyles.filterBott} ${imageStyles.parallax__layer__base} ${imageStyles.parallax__layer__bott} `}
-                        style={{ backgroundImage: "url(" + FooterImage + ")" }}
+                        style={{ backgroundImage: "url(" + footerImageUrl + ")" }}
                     />
                     {/*Ссылки подвала */}
                     <FooterContent className={`${imageStyles.parallax__layer__base}  `} containerStyle={imageStyles.message} typProps={imageStyles.bottomText} />

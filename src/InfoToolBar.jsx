@@ -13,12 +13,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Form from './Form.jsx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {useSelector} from 'react-redux'
 import MySnack from './MySnack.jsx'
 
 //Иконки
 
 // import Call from '@material-ui/icons/Call';
-import Mail from '@material-ui/icons/Mail';
+// import Mail from '@material-ui/icons/Mail';
 
 const appBarStaticStyles = makeStyles (theme => ({
     typografy:{
@@ -77,7 +78,9 @@ export default function InfoToolBar (props) {
     const [open,setOpen] = useState(false)
     const [openSnack,setOpenSnack] = useState(false)
     const [message, setMessage] = useState(0)
-
+    
+    const tel = useSelector(state => Object.entries(state.data).find(([key,item])=> item.item_name == 'tel')[1].item_value)
+    const email = useSelector(state => Object.entries(state.data).find(([key,item])=> item.item_name == 'email')[1].item_value)
     const handleOpen = () => {
         setOpen (true)
     }
@@ -104,7 +107,7 @@ export default function InfoToolBar (props) {
             {/* <Call fontSize={down_md? "default": "large"} {...typProps}/> */}
             <Typography variant="h6" classes={{h6: classes.h6}} display="inline" {...typProps}>
                 <FontAwesomeIcon icon={["fas", "phone-alt"]}/>
-                &nbsp;+7(495)&nbsp;322-22-33
+                &nbsp;{tel}
             </Typography>
         </Button>
 
@@ -114,7 +117,7 @@ export default function InfoToolBar (props) {
                 {/* <Mail fontSize={down_md? "default": "large"} {...typProps}/> */}
                 <Typography variant="h6" classes={{h6: classes.h6}} {...typProps} >
                     <FontAwesomeIcon icon={["fas", "envelope"]}/>
-                    &nbsp;info@example.com
+                    &nbsp;{email}
                 </Typography>
             </Button>
         </Box>
