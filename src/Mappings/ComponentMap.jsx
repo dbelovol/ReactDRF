@@ -1,4 +1,4 @@
-﻿import BlockOfLinks from '../Butt_base.jsx'
+import BlockOfLinks from '../Butt_base.jsx'
 import IconListWithText from '../IconListWithText.jsx'
 import AvatarList from '../AvatarList.jsx'
 import BlockOfText from '../BlockOfText.jsx'

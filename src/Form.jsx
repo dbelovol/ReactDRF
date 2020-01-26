@@ -2,6 +2,7 @@
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import {API} from './Mappings/api'
 
 
 const initFormState = {
@@ -28,7 +29,7 @@ export default function Form(props) {
             console.log("НЕОТПРАВКА", submitData) 
         } else {
             if (!Object.entries(submitData).reduce((res, [key, value]) => value.error || res, false)){
-            fetch ("http://localhost:8000/email/", 
+            fetch (`${API}email/`, 
                     {
                         method: "POST",
                         headers: {

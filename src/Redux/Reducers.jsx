@@ -4,6 +4,7 @@ import { slugify as address} from 'transliteration';
 import urlJoin from 'url-join';
 import { normalize} from 'normalizr';
 import {pageSchema, pagesSchema, globaldataSchema} from '../Schema/schema.jsx'
+import {API} from '../Mappings/api'
 // import {initialState} from './InitialState.jsx'
 
 
@@ -165,7 +166,7 @@ export function fetchPages() {
     return function(dispatch) {
         // взводим загрузку информации по страницам
         dispatch(pageHeadersRequest())
-        return (fetch('http://localhost:8000/pagetotal/')
+        return (fetch(`${API}pagetotal/`)
         .then(
             response=>{console.log(response); return response.json()},
             error => {console.log('Что-то пошло не так c заголовками', error); return Promise.reject("Эта")})
@@ -180,7 +181,7 @@ export function fetchPage(pageid) {
     return function(dispatch) {
         // взводим загрузку информации по страницам
         dispatch(pageDetailRequest(pageid))
-        return fetch(`http://localhost:8000/page/${pageid}/`)
+        return fetch(`${API}page/${pageid}/`)
         .then(
             response=>response.json(),
             error => {console.log('Что-то пошло не так со страницей', error); return Promise.reject()})
