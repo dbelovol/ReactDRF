@@ -18,6 +18,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { StaticRouter} from "react-router-dom"
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles'
+import {Helmet} from 'react-helmet'
 
 // import App from '../shared/App'
 config.autoAddCss = false
@@ -119,6 +120,7 @@ app.useAsync(async function(req, res, next) {
     
   ))
   
+  const helmet = Helmet.renderStatic()
   const preloadedState = store.getState()
   const css = sheets.toString();
   if(context.url) {
@@ -127,15 +129,20 @@ app.useAsync(async function(req, res, next) {
   } else {
   res.send(`
     <!DOCTYPE html>
-    <html>
+    <html ${helmet.htmlAttributes.toString()}>
       <head>
-        <title>SSR with RR</title>
+        ${helmet.title.toString()}
+        ${helmet.meta.toString()}
+        ${helmet.link.toString()}
+        ${helmet.script.toString()}
+        ${helmet.noscript.toString()}
+        ${helmet.style.toString()}
         <style id="awesome-icons-ssr">${faStyles}</style>
         <style id="jss-server-side">${css}</style>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        
       </head>
 
-      <body>
+      <body ${helmet.bodyAttributes.toString()}>
         <div id="app">${markup}</div>
         <script>
           // WARNING: See the following for security issues around embedding JSON in HTML:

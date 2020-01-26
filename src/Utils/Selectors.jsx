@@ -14,6 +14,7 @@ export const pageHeaderPrepare = (state, id=-1) => {
 }
 
 // Создание запоминающего селектора для информации о заголовке. 
+// Это НЕ ЗАПОМИНАЮЩИЙ СЕЛЕКТОР И ЭТО ХОРОШО!!!!
 export const pageHeaderSelector = createSelector (
     pageHeaderPrepare,
     res => res
