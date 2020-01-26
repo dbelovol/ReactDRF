@@ -1,4 +1,4 @@
-﻿const webpack = require('webpack')
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals')
 const CompressionPlugin = require('compression-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;

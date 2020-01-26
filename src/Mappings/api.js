@@ -1,0 +1,1 @@
+export const API="http://api.xn--j1acbnlb2g.xn--p1ai/"

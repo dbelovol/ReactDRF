@@ -19,6 +19,7 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { StaticRouter} from "react-router-dom"
 import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles'
 import {Helmet} from 'react-helmet'
+import {API} from '../Mappings/api'
 
 // import App from '../shared/App'
 config.autoAddCss = false
@@ -85,7 +86,7 @@ app.useAsync(async function(req, res, next) {
     middleware: getDefaultMiddleware(),
     devTools: true,
   })
-  const pagesData = await fetch('http://localhost:8000/pagetotal/')
+  const pagesData = await fetch(`${API}pagetotal/`)
   .then(
       response=>{ return response.json()},
       error => {console.log('Что-то пошло не так c заголовками', error); return Promise.reject("Эта")})
@@ -96,7 +97,7 @@ app.useAsync(async function(req, res, next) {
   store.dispatch(pageHeadersResponse(pagesData))
   store.dispatch(setCurrentPage(req.path))
   if (store.getState().currentPage >=0) {
-  const pageData = await fetch(`http://localhost:8000/page/${store.getState().currentPage}/`)
+  const pageData = await fetch(`${API}page/${store.getState().currentPage}/`)
   .then(
       response=>response.json(),
       error => {console.log('Что-то пошло не так со страницей', error); return Promise.reject()})
