@@ -1,4 +1,4 @@
-﻿import React,{useState, useMemo} from 'react';
+﻿import React,{useState, useMemo, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -33,17 +33,27 @@ export default function MainToolBar (props) {
           textDataSelector(state, 0)
         )
     // const toolBarEntries = useSelector (selectToolbarEntries)
-    const [target, setTarget]=useState({anchorEl: __isBrowser__ ? document.window : "", hovered: false})
+    // const [target, setTarget]=useState({anchorEl: __isBrowser__ ? document.window : "", hovered: false})
+    const [target, setTarget] = useState(
+        toolBarEntries.map(
+            entry => ({[entry.id]:{anchorEl:  React.createRef(), hovered: false}})
+        ).reduce((acc, curr) => ({...acc, ...curr}), {})
+    )
     
+
     return(
         <>
+        { toolBarEntries.map( entry => 
         <MyPopper   
-            open={target.hovered}  
-            key={page} anchorEl={target.anchorEl} 
-            transition 
-            mouseOver={() => setTarget(prevState => ({hovered: true, anchorEl: prevState.anchorEl}))}
-            mouseOut={() => setTarget(prevState => ({hovered: false, anchorEl: prevState.anchorEl}))}
+            open={target[entry.id].hovered}
+            id ={entry.id}  
+            key={entry.id} anchorEl={target[entry.id].anchorEl} 
+            mouseOver={() => setTarget(prevState => 
+                ({...prevState, [entry.id]: {hovered: true, anchorEl: prevState[entry.id].anchorEl}}))}
+            mouseOut={() => setTarget(prevState => 
+                ({...prevState, [entry.id]: {hovered: false, anchorEl: prevState[entry.id].anchorEl}}))}
         />
+        )}
         <Grid container alignItems="center" direction="column">
             <Grid item xs={12}>
             <Toolbar className={classes.root}>
@@ -53,13 +63,13 @@ export default function MainToolBar (props) {
                             variant={entry.onCurrentPath || entry.isCurrent ? "outlined": "text"}
                             entryid={entry.id}
                             key={entry.id}
+                            ref = {target[entry.id].anchorEl}
                             component={entry.isCurrent? "button": entry.url}
                             className={classes.element}
-                            onMouseOver={(e) => setTarget({
-                                anchorEl: e.currentTarget, 
-                                hovered: entry.hasChilds
-                            })}
-                            onMouseOut={(e) => setTarget(prevState=> ({hovered: false, anchorEl: prevState.anchorEl}))}
+                            onMouseOver={(e) => setTarget( prevState =>
+                                ({...prevState, [entry.id]: {hovered: entry.hasChilds, anchorEl: prevState[entry.id].anchorEl.current}}))}
+                            onMouseOut={(e) => setTarget(prevState=> 
+                                ({...prevState, [entry.id]: {hovered: false, anchorEl: prevState[entry.id].anchorEl.current}}))}
                             >
                             <Typography variant="body2" {...typProps} >{entry.name}</Typography>
                         </Button>

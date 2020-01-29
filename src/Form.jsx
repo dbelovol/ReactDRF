@@ -26,7 +26,7 @@ export default function Form(props) {
         if (!submitData.telField.value || !submitData.nameField.value) {
             handleSubmit(state => ({...state, telField:{error: true}, nameField:{error: true}   
             }))
-            console.log("НЕОТПРАВКА", submitData) 
+            // console.log("НЕОТПРАВКА", submitData) 
         } else {
             if (!Object.entries(submitData).reduce((res, [key, value]) => value.error || res, false)){
             fetch (`${API}email/`, 
@@ -63,29 +63,29 @@ export default function Form(props) {
     }
 
     const handleBlur =(e) => {
-        console.log("SUBMITDATA",e.target, e.target.validity.valid)
+        // console.log("SUBMITDATA",e.target, e.target.validity.valid)
         const valid = e.target.validity.valid
         const target = e.target.id
         const value = e.target.value
         if (!valid){
             handleSubmit (state => ({...state, [target]: {value: value, error: true}}))
-            console.log("SUBMITDATA",submitData)
+            // console.log("SUBMITDATA",submitData)
         } else {
             handleSubmit (state => ({...state, [target]: {value: value, error: false}}))
-            console.log("SUBMITDATA",submitData)
+            // console.log("SUBMITDATA",submitData)
         }
         
     }
 
     const handleChange =(e) => {
-        console.log("SUBMITDATA",e.target, e.target.validity.valid)
+        // console.log("SUBMITDATA",e.target, e.target.validity.valid)
         const valid = e.target.validity.valid
         const target = e.target.id
         
         const value = e.target.value
         if (valid){
             handleSubmit (state => ({...state, [target]: {value: value, error: false}}))
-            console.log("SUBMITDATA",submitData)
+            // console.log("SUBMITDATA",submitData)
         } 
         
     }

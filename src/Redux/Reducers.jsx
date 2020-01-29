@@ -11,7 +11,7 @@ import {API} from '../Mappings/api'
 function markCurrent(node,tree) {
     // Функция формирует поля current. 
     // Нужно для подсветки текущего пути. 
-    console.log(node, tree[node].parent)
+    // console.log(node, tree[node].parent)
     if (tree[node].parent != node) {
         tree[tree[node].parent].current = node
         markCurrent (tree[node].parent,tree)
@@ -20,7 +20,7 @@ function markCurrent(node,tree) {
 
 function makeUrl (prev_node,tree,level, url, pages){
     // Функция формирует полные url-адреса страниц
-    console.log(pages)
+    // console.log(pages)
     if (tree[prev_node].childs) {
         tree[prev_node].level = level
         pages[prev_node].url= url
@@ -78,7 +78,7 @@ const testSlice = createSlice ({
             state.tree = {}
             Object.assign(state, action.payload.entities)
             // state.pages = action.payload.entities.pages
-            console.log(state.pages)
+            // console.log(state.pages)
             //  После загрузки информации по заголовкам
             //  страниц очевидно пока не загружено ни одной.
             //  Поэтому по каждой странице устанавливаем isLoaded = false
@@ -92,7 +92,7 @@ const testSlice = createSlice ({
             })
             // Размечаем данные для работы с компонентом заголовка
             makeStartTree(state.tree)
-            console.log(state.tree)
+            // console.log(state.tree)
             // Формируем полные адреса страниц
             makeUrl(0, state.tree, 0, "/", state.pages)
         },
@@ -110,7 +110,7 @@ const testSlice = createSlice ({
             Object.assign(state.pages[id], action.payload.result)
             // То же самое, НО state[key] МОЖЕТ НЕ БЫТЬ. ПОэтому проверяем
             // и если нет - то просто присваиваем 
-            console.log(action.payload.result)
+            // console.log(action.payload.result)
             for (let [key,value] of Object.entries(action.payload.entities)) {
                 if (state[key]) {
                     Object.assign(state[key], value)
@@ -125,7 +125,7 @@ const testSlice = createSlice ({
                     value.forEach( item => {
                         // let side = item.side
                          sides[item.side].push([key, item.block, item.order])
-                        console.log(item.side)
+                        // console.log(item.side)
                     } )
                 }
             })
@@ -138,12 +138,12 @@ const testSlice = createSlice ({
 
         },
         setCurrentPage:(state,action)=> {
-             console.log ("SETTING CURRENT PAGE")
+            //  console.log ("SETTING CURRENT PAGE")
             let currentPage = Object.entries(state.pages).find(([key, value])=> value.url === action.payload)
             //  console.log(currentPage)
             state.currentPage = currentPage ? currentPage[0] : -1
             for (let [key,value] of Object.entries(state.tree)) {
-                console.log(key)
+                // console.log(key)
                 state.tree[key].current = 0
             }
             if (state.currentPage >= 0) {
@@ -168,10 +168,10 @@ export function fetchPages() {
         dispatch(pageHeadersRequest())
         return (fetch(`${API}pagetotal/`)
         .then(
-            response=>{console.log(response); return response.json()},
+            response=>{/*console.log(response);*/ return response.json()},
             error => {console.log('Что-то пошло не так c заголовками', error); return Promise.reject("Эта")})
         .then(
-            json => {console.log ("мы здесь", normalize(json, globaldataSchema)); dispatch(pageHeadersResponse(normalize(json, globaldataSchema)))},
+            json => {/*console.log ("мы здесь", normalize(json, globaldataSchema));*/ dispatch(pageHeadersResponse(normalize(json, globaldataSchema)))},
             error => console.log(error)
         ))
     }
@@ -186,7 +186,7 @@ export function fetchPage(pageid) {
             response=>response.json(),
             error => {console.log('Что-то пошло не так со страницей', error); return Promise.reject()})
         .then(
-            json => {console.log ("мы здесь", normalize(json, pageSchema)); dispatch(pageDetailResponse(normalize(json, pageSchema)))},
+            json => {/*console.log ("мы здесь", normalize(json, pageSchema));*/ dispatch(pageDetailResponse(normalize(json, pageSchema)))},
             error => console.log(error)
         )
     }

@@ -100,7 +100,7 @@ export default function MainAppBar(props) {
                         });
     
     const {appProps, typProps} = useScrollTransform(trigger, props.page)
-    console.log("!!!ЭЛЕМЕНТ!!!!", elem)
+    // console.log("!!!ЭЛЕМЕНТ!!!!", elem)
    
     /*
      * Это надо, чтобы передернуть хук useScrollTransform выше.

@@ -50,7 +50,7 @@ app.use('/static', function(req, res, next){
   let encodings = req.get('Accept-Encoding').split(",").map(el => el.trim())
   let extension = req.url.match(/\.js$/)
   if (encodings && extension == ".js") {
-    console.log("POSSIBLE ENCODINGS ARE", encodings)
+    // console.log("POSSIBLE ENCODINGS ARE", encodings)
     if (encodings.find(el => el =="br")){
       res.set('Content-Encoding', 'br')
       req.url = req.url + ".br"
@@ -76,7 +76,7 @@ app.use( function(req, res, next) {
 
 app.useAsync(async function(req, res, next) {
   
-  console.log("ENVIRONMENT!!",process.env.NODE_ENV)
+  // console.log("ENVIRONMENT!!",process.env.NODE_ENV)
   const generateClassName = createGenerateClassName({
     productionPrefix: 'jss',
   })

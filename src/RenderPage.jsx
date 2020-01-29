@@ -126,7 +126,7 @@ export default function RenderPage ({page}){
         for (const key of state.tree[0].childs.values()){
             arrayCollapse[key] = true 
         }
-        console.log(arrayCollapse)
+        // console.log(arrayCollapse)
         return arrayCollapse
     }))
     //Селектор срабатывает при изменении свойства page
@@ -143,9 +143,9 @@ export default function RenderPage ({page}){
     // а значит перенинициализации hovered НЕ ПРОИЗОЙДЕТ. Для этого используется useEffect
     // Иными словами, он нужен для корректной переинициализации hovered при ИЗМЕНЕНИИ ref
     // POPPER
-    useEffect(()=> setHovered(prevState => prevState.id != curPicture.id ? 
-          curPicture: prevState
-     ))
+    // useEffect(()=> setHovered(prevState => prevState.id != curPicture.id ? 
+    //       curPicture: prevState
+    //  ))
     const result = useSelector(state => parse(state,page,page))
       
         

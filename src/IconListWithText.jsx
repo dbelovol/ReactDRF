@@ -55,7 +55,7 @@ export default function IconListWithText(props) {
     const iconData =  useSelector (state => 
         iconDataSelector(state, {id: id, type: "icon_blocks"})
       )
-    console.log(iconData)
+    // console.log(iconData)
     const align = iconData.icons.length == 1 || side =="R" ? {xs:12}: 
                               (iconData.icons.length == 2 ? {xs:12, md:6}:{xs:12, md:6, lg:4} )
      

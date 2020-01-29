@@ -65,7 +65,7 @@ const popperStyles = makeStyles (theme=> ({
 export default function AppBarPopper (props) {
     
     const popStyles = popperStyles()
-    const {open, anchorEl, mouseOver, mouseOut} = props
+    const {open, anchorEl, mouseOver, mouseOut, id} = props
     const [arrowRef, setArrowRef]=useState(null) //stateHook , управляющий извлечением ссылки на стрелку
     
     return (
@@ -85,10 +85,10 @@ export default function AppBarPopper (props) {
                        */}
                     {({ TransitionProps }) => (
                             
-                    <Fade {...TransitionProps} timeout={200}>
+                    <Fade {...TransitionProps} timeout={0}>
                         <div>
                              <Paper className={popStyles.paper}>
-                                <PopMenu page={anchorEl.getAttribute('entryid')}/>
+                                <PopMenu page={id}/>
                             </Paper>    
                             <span className={popStyles.arrow} ref={node=> setArrowRef(node)}/>
                         </div>

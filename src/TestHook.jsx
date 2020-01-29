@@ -169,11 +169,11 @@ export default function ElevateAppBar(props) {
     // На сервере вернет undefined
     const windowDims = useWindowSize()
     // Данный хук на сервере вернет "", что эквивалентно false, что и надо
-    const pictureTrigger = useScrollTrigger({
-        disableHysteresis: true,
-        target: elem ,
-        threshold: windowDims.height*1.5,
-    }) 
+    // const pictureTrigger = useScrollTrigger({
+    //     disableHysteresis: true,
+    //     target: elem ,
+    //     threshold: windowDims.height*1.5,
+    // }) 
     
     // При первом рендеринге элемента main_page_parallax в DOM нет
     // Поэтому после рендернига мы выполняем ОДНАЖДЫ этот хук
@@ -182,7 +182,7 @@ export default function ElevateAppBar(props) {
     useEffect(() => {
         if (__isBrowser__) {
             setElem(document.getElementById("main_page_parallax"))
-            console.log("!!!!!!УСТАНАВЛИВАЕМ ССЫЛКУ НА ЭЛЕМЕНТ!!!!!")
+            // console.log("!!!!!!УСТАНАВЛИВАЕМ ССЫЛКУ НА ЭЛЕМЕНТ!!!!!")
     }}, []);
 
 
@@ -201,7 +201,7 @@ export default function ElevateAppBar(props) {
     const {page} = props
     const blockData = useSelector(blocksForPageSelector)
     const footerImageUrl = useSelector(state => Object.entries(state.glob_picts).find(([key,pict])=> pict.picture_name == 'footerpict')[1].picture)
-    console.log("IMAGE URL",footerImageUrl)
+    // console.log("IMAGE URL",footerImageUrl)
     return (
         <React.Fragment>
             <CssBaseline />
@@ -216,7 +216,7 @@ export default function ElevateAppBar(props) {
 
             <div className={imageStyles.parallax} id="main_page_parallax">
                 <div className={imageStyles.parallax__layer_top}>
-                    <HeaderInfo page={props.page} pictureTrigger={pictureTrigger}/>
+                    <HeaderInfo page={props.page} />
                 </div>
                 {((id ) => {
                       const [Comp0, Comp1] = id == 0 ? [Container, Paper]: [Paper, Container]

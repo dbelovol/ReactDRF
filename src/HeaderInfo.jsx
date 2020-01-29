@@ -65,7 +65,8 @@ const headerClasses = makeStyles(theme => ({
         // Медленный слой
         // На главной странице картинка двигается медленно
         // На остальных - неподвижна
-        transform: props => props.page == 0 ? "translateZ(-1px) scale(2.1)" : "translateZ(-100px) scale(112)",
+        transform: props => props.page == 0 ? "translateZ(-1px) scale(2.1)" : "translateZ(0)",
+        backgroundAttachment: props => props.page == 0 ? "scroll": "fixed",
         position: "relative",
         zIndex: 1,
 
@@ -115,12 +116,12 @@ export default function pageHeadersRequest(props) {
     return (
     <>
     {/* Отслеживается прокрутка страницы. Отрубается вывод катинки фона. Иначе она торчит внизу */}
-    { !props.pictureTrigger ?
+    
         <div
             className={`${classes.img} ${classes.parallax__layer__back} ${classes.filter} ${classes.parallax__layer__bott}`}
             style={{ backgroundImage: "url(" + pageInfo.picture + ")" }}
-        /> : ""
-    }
+        /> 
+    
     <Container className={` ${classes.parallax__layer__base} `} maxWidth="lg" fixed>
         <HeaderContent page={props.page} mode={"main"} pageInfo={pageInfo}/>
     </Container>

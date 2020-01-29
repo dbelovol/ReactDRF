@@ -38,14 +38,14 @@ const globalMetaTagSelector = createSelector (
 // Запоминающий селектор, извлекающий локальные метатеги
 
 const localMetaTagSelector = createSelector (
-    [(state, id)=> {console.log("IDIDI", id);return id == -1 ? []: state.pages[id].page_tags}, 
+    [(state, id)=> {return id == -1 ? []: state.pages[id].page_tags}, 
     (state, _)=> state.page_tags, 
     (state,_) => state.attrs,
     (state, id) => state.currentPage != -1 ? state.pages[id].isLoaded: false],
     (page_tag_ids, page_tags, page_attrs, isLoaded) => {
-        console.log("ВОТ ЧТО ВОШЛО!!!!", page_tag_ids, page_tags, page_attrs)
+        // console.log("ВОТ ЧТО ВОШЛО!!!!", page_tag_ids, page_tags, page_attrs)
         const result = isLoaded ? page_tag_ids.map(el => ({[el]: page_tags[el]})).reduce((acc,el)=> ({...acc, ...el}), {}): " Мимо!!!"
-        console.log("ВОТ ЧТО ВЫШЛО!!!!", result)
+        // console.log("ВОТ ЧТО ВЫШЛО!!!!", result)
         return isLoaded ? retrieveMeta(
              result, 
              page_attrs, false) :""
@@ -60,8 +60,8 @@ export default function ConditionalSwitch () {
     const defaultTitle = useSelector(state => state.data ?
         Object.entries(state.data).find(([key,item])=> item.item_name == 'defaultTitle')[1].item_value:
          "ТМКПлюс")
-    console.log("!!!!!!!!!МЕТАТЭГИ", globalMetas)
-    console.log("IN MAIN")
+    // console.log("!!!!!!!!!МЕТАТЭГИ", globalMetas)
+    // console.log("IN MAIN")
     useDispatch()(fetchPagesIfNeeded())
     return (
         <>
@@ -91,12 +91,12 @@ function Dispatcher(props) {
     // Идентификатор текущей страницы заносится в ключ currentPage Redux's state
     // Это делается при помощи аction setCurrentPage
     // Если страницы с указанным адресом нет - то номер текущей приравнивается -1
-    console.log ("In dispatcher")
+    // console.log ("In dispatcher")
     useDispatch()(setCurrentPage(props.location.pathname))
-    const page  = useSelector (state => {console.log(`Текущая страница -  ${state.currentPage}`); return state.currentPage})
-    console.log("ТЕКУЩАЯ СТРАНИЦА ОДНАКО!!!", page)
+    const page  = useSelector (state => {/*console.log(`Текущая страница -  ${state.currentPage}`);*/ return state.currentPage})
+    // console.log("ТЕКУЩАЯ СТРАНИЦА ОДНАКО!!!", page)
     return (page ? <PageDrawer page={page}/>:
-    <div>{(() => {console.log("ОППАНЬКИ!!"); return("Переключаемся на затребованную страницу")})()}</div>)
+    <div>{(() => {/*console.log("ОППАНЬКИ!!");*/ return("Переключаемся на затребованную страницу")})()}</div>)
 }
 
 
@@ -106,7 +106,7 @@ function PageDrawer ({page}) {
     const isLoaded = useSelector (state => page !=-1 ? state.pages[page].isLoaded: false)
     const isFetching = useSelector (state => page !=-1 ? state.pages[page].isFetching: false)
     const localMetas = useSelector(state => localMetaTagSelector(state, page))
-     console.log("PageDrawer", isFetching, isLoaded)
+    // console.log("PageDrawer", isFetching, isLoaded)
     return (
     page == -1 ?
     // Если страница не найдена - выводим страницу 404

@@ -1,1 +1,1 @@
-export const API="http://api.xn--j1acbnlb2g.xn--p1ai/"
+export const API="http://localhost:8000/"

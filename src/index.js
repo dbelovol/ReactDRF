@@ -17,7 +17,7 @@ library.add(fas)
 
 const tmk_theme = responsiveFontSizes( createMuiTheme({
  palette: {
-  secondary: { main: '#1565c0' , light: '#1565c0', dark:"#1565c0"},
+  secondary: { main: '#1565c0' , light: '#1565c0', dark:"#1a237e"},
   primary: { main: '#ff6f00', dark: "#a03304", light: '#ffccbc' }
 },
 }), {factor: 5});
