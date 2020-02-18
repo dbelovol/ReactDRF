@@ -13,15 +13,16 @@ const headerClasses = makeStyles(theme => ({
     //------------------------Стили для параллакса в голове-----------------------//
     img: {
         height: "90vh",
-        maxHeight: "1000px",
+        // maxHeight: "1000px",
+        minHeight: "540px",
         overflow: "hidden",
         // position: "relative", //Необходимо, чтобы корректно наложить фильтр (там position - absolute) 
-        backgroundPosition: "right top",
-        backgroundSize: props => props.page == 0? "70%": "cover",
+        backgroundPosition:  props => props.page == 0? "right top": "center center",
+        backgroundSize: props => props.page == 0? "contain": "cover",
         backgroundRepeat: "no-repeat",
-        [theme.breakpoints.down('sm')]: {  //Переключение позиционирования фона на малых экранах
-            backgroundSize: "100%",
-            backgroundPosition: "right bottom",
+        [theme.breakpoints.down('md')]: {  //Переключение позиционирования фона на малых экранах
+            backgroundSize: props => props.page == 0? "cover": "cover",
+            backgroundPosition: props => props.page == 0? "center top": "center center"
 
         },
         backgroundColor: "white", // Нужно потому, что картинка в голове не полностью закрывает фон
@@ -145,7 +146,7 @@ export const HeaderContent = (props) => {
     return (
         /* Заголовок главной страницы выводится иначе. */
         page ==0 ?
-            <Grid container justify="flex-start" alignItems="center" style={mode =="main" ? { height: "90vh" }: ""}>
+            <Grid container justify="flex-start" alignItems="center" style={mode =="main" ? { height: "90vh", minHeight: "540px" }: ""}>
                 <Grid item xs={12}>
                     <Typography 
                         className={classes.typography} 
@@ -165,7 +166,7 @@ export const HeaderContent = (props) => {
                 justify="space-around" 
                 alignItems="center" 
                 direction="column" 
-                style={mode =="main" ? { height: "90vh" }: { }}>
+                style={mode =="main" ? { height: "90vh", minHeight: "540px" }: { }}>
                 {/** Вставка полоски, иначе заголовок страницы наезжает на тулбар */}
                 {mode == 'main' ? <Grid item style={{height: "40px"}}/>: ""}
                 <Grid item >
@@ -187,13 +188,15 @@ export const HeaderContent = (props) => {
                             {pageInfo.text}
                     </Typography>
                 </Grid>
-                <Grid item container justify="space-between" >
+                <Grid item container justify="space-between" alignItems="center">
                     {pageInfo.features.map( feature => 
                             <Grid key={feature.id} item xs={4} container direction="column" alignItems="center">
                                 <Grid item >
                                     <Typography 
                                         className={classes.typography} 
-                                        variant={mode == "main"? "h6": "caption"}>
+                                        variant={mode == "main"? "h6": "caption"}
+                                        align = "center"
+                                    >
                                             {feature.name}
                                     </Typography>
                                 </Grid>
