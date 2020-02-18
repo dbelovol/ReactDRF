@@ -1,4 +1,4 @@
-﻿import 'babel-polyfill'
+import 'babel-polyfill'
 import fetch from 'isomorphic-fetch'
 import React from 'react'
 import express from "express"
