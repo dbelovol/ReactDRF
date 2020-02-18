@@ -117,7 +117,7 @@ const useTransparent_1 = makeStyles(theme => ({
     },
     parallax__layer: {// Слой, в котором надо наложить картинку и текст, УБРАВ ПАРАЛЛАКС (overflow: "hidden")
         position: "relative",
-        minHeight: "40vh",
+        // minHeight: "540px",
         zIndex: 1,
         overflow: "hidden",
         transformStyle: "preserve-3d",
@@ -125,7 +125,7 @@ const useTransparent_1 = makeStyles(theme => ({
     },
     parallax__layer_top: {// Слой, в котором надо наложить картинку и текст, СОХРАНИВ ПАРАЛЛАКС 
         position: "relative",
-        minHeight: "40vh",
+        minHeight: "540px",
         // На главной странице картинка должна вылезать за границы
         // overflow: props => props.page==0 ? "": "hidden",
         zIndex: 1,

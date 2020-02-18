@@ -47,6 +47,7 @@ const useStyles = makeStyles(theme => ({
   image: {
     position: 'relative',
     height: "40vh",
+    maxHeight: "300px",
     [theme.breakpoints.down('xs')]: {
      // width: '100% !important', // Overrides inline-style
     //  height: 100,
@@ -153,7 +154,7 @@ export default function ButtonBases(props) {
     //  данным страницы. Извлекаем ее из store и помещаем в данные вместо идентификаторов
     linkData.links = useSelector(state => linkData.links.map(elem => ({
                                   ...elem,
-                                  url: state.pages[elem.page].picture,
+                                  url: state.pages[elem.page].thumb,
                                   title: state.pages[elem.page].header,
                                   width: "100%", 
                                   // Ссылки реализованы ВНУТРИ базовой кнопки либо аватара
