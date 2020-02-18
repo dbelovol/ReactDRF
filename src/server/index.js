@@ -52,11 +52,19 @@ app.use('/static', function(req, res, next){
   if (encodings && extension == ".js") {
     // console.log("POSSIBLE ENCODINGS ARE", encodings)
     if (encodings.find(el => el =="br")){
-      res.set('Content-Encoding', 'br')
+      res.set({
+        'Content-Encoding': 'br',
+        'Content-type': 'application/json' 
+
+    })
       req.url = req.url + ".br"
     } else {
       if (encodings.find(el => el =="gzip")) {
-        res.set('Content-Encoding', 'gzip')
+        res.set({
+          'Content-Encoding': 'gzip',
+          'Content-type': 'application/json' 
+  
+      })
         req.url = req.url + ".gz"
       }
     }
